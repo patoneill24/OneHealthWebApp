@@ -39,6 +39,19 @@ app.post('/', async(req, res) => {
     }
 });
 
+app.put('/:id', async(req, res) => {
+    const { id } = req.params;
+    const { name, location } = req.body;
+    try{
+        await pool.query('UPDATE users SET name = $1, location = $2 WHERE id = $3', [name, location, id]);
+        res.status(200).send({
+            message: "successfully updated user",
+        });
+    } catch (err: any) {
+        console.error(err.message);
+    }
+});
+
 app.get('/setup', async (req, res) => {
     try{
         await pool.query('CREATE TABLE IF NOT EXISTS users (id SERIAL PRIMARY KEY, name VARCHAR(255), location VARCHAR(255))');

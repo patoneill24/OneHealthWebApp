@@ -21,3 +21,12 @@ GET http://localhost:3000
 GET http://localhost:3000/3
 
 ###
+
+PUT http://localhost:3000/2
+Content-Type: application/json
+
+{
+    "name": "Lucy",
+    "location": "Paris"
+}
+###

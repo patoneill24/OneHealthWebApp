@@ -39,7 +39,7 @@ To stop the containers, run the following command
 ```
 docker compose down
 ```
-You'll need to create .env file in the root directory and specify the following environment variables to interact with the database. 
+You'll need to create .env file in the root directory and in the server directory to specify the following environment variables to interact with the database. 
 ```
 POSTGRES_USER
 POSTGRES_PASSWORD
