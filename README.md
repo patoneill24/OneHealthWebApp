@@ -32,3 +32,14 @@ container for the client, server and postgres database.
 ```
 docker compose up --build
 ```
+
+To stop the containers, run the following command
+```
+docker compose down
+```
+You'll need to create .env file in the root directory and specify the following environment variables to interact with the database. 
+```
+POSTGRES_USER
+POSTGRES_PASSWORD
+
+```
