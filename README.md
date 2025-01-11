@@ -33,6 +33,8 @@ container for the client, server and postgres database.
 docker compose up --build
 ```
 
+I couldn't get volumes to work for the server and client containers. So, you'll need to rebuild the images if you make changes to the server or client code.
+
 To stop the containers, run the following command
 ```
 docker compose down
