@@ -56,6 +56,18 @@ app.put('/:id', async(req, res) => {
     }
 });
 
+app.delete('/:id', async(req, res) => {
+    const { id } = req.params;
+    try{
+        await pool.query('DELETE FROM users WHERE id = $1', [id]);
+        res.status(200).send({
+            message: "successfully deleted user",
+        });
+    } catch (err: any) {
+        console.error(err.message);
+    }
+});
+
 app.get('/setup', async (req, res) => {
     try{
         await pool.query('CREATE TABLE IF NOT EXISTS users (id SERIAL PRIMARY KEY, name VARCHAR(255), location VARCHAR(255))');
