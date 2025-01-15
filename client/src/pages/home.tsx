@@ -1,4 +1,4 @@
-import { useState} from 'react';
+import React, { useRef, useState} from 'react';
 import { default as axios } from 'axios';
 import { Link } from 'react-router';
 import { useAppContext } from '../contexts/userContexts';
@@ -19,8 +19,6 @@ export default function Home() {
       const [response, setResponse] = useState('');
       const [users, setUsers] = useState<User[]>([]);
       const [menu, setMenu] = useState(false);
-      const [updatedName, setUpdatedName] = useState('');
-      const [updatedLocation, setUpdatedLocation] = useState('');
       const [updateResponse, setUpdateResponse] = useState('');
     
     function submitForm(userName: string, userLocation: string) {
@@ -72,18 +70,20 @@ export default function Home() {
       });
     }
 
-    function updateUser(id: number, name: string, location: string) {
+    function updateUser(id: number) {
       setMenu(true);
       setId(id);
-      setUpdatedName(name);
-      setUpdatedLocation(location);
     }
 
     function UpdateMenu() {
-      function updateUserByID(id: number, name: string, location: string) {
+      const inputRefName = useRef() as React.MutableRefObject<HTMLInputElement>;
+      const inputRefLocation = useRef() as React.MutableRefObject<HTMLInputElement>;
+
+
+      function updateUserByID(id: number) {
         axios.put(`http://localhost:3000/${id}`, {
-          name: name,
-          location: location
+          name: inputRefName.current.value,
+          location: inputRefLocation.current.value
         })
         .then((response) => {
           console.log(response);
@@ -94,26 +94,30 @@ export default function Home() {
           console.log(error);
         });
       }
-    
-    
+
+      // const InputField = React.memo(({ value, onChanged }:Item) => {
+      //   return <input value={value} onChange={onChanged} />;
+      // });
+      
+
       return(
         <div>
           <label>Enter Name: </label>
-          <input 
-          type='text' 
-          placeholder='Name' 
-          value={updatedName}
-          onChange={(e) => setUpdatedName(e.target.value)}
-          ></input>
+          <input
+          className='updateUser'
+          type='text'
+          placeholder='Name'
+          ref = {inputRefName}
+          />
           <label>Enter Location: </label>
-          <input type='text' 
-          placeholder='Location' 
-          value={updatedLocation}
-          onChange={(e) => setUpdatedLocation(e.target.value)}
-          >
-          </input>
+          <input
+          className='updateUser'
+          type='text'
+          placeholder='Location'
+          ref = {inputRefLocation}
+          />
           <button
-          onClick={() => updateUserByID(id,updatedName, updatedLocation)}
+          onClick={() => updateUserByID(id)}
           >Update User</button>
           {updateResponse}
         </div>
@@ -146,7 +150,7 @@ export default function Home() {
             <div key={user.id}>
               <Link to = '/rewards'><button onClick={() => viewUser(user.id)}>Go to {user.name}'s Account</button></Link>
               <button onClick={() => deleteUser(user.id)}>Delete {user.name}</button>
-              <button onClick={() => updateUser(user.id,user.name,user.location)}>Update {user.name}</button>
+              <button onClick={() => updateUser(user.id)}>Update {user.name}</button>
             </div>
           )
           }
