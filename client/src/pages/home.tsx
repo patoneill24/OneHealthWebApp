@@ -7,6 +7,7 @@ interface User {
     id: number;
     name: string;
     location: string;
+    points: number;
   }
 
 
@@ -16,15 +17,18 @@ export default function Home() {
       const [id, setId] = useState(0);
       const [name, setName] = useState('');
       const [location, setLocation] = useState('');
+      const [points, setPoints] = useState(0);
       const [response, setResponse] = useState('');
       const [users, setUsers] = useState<User[]>([]);
       const [menu, setMenu] = useState(false);
       const [updateResponse, setUpdateResponse] = useState('');
+      const [updatedPoints, setUpdatedPoints] = useState(0);
     
-    function submitForm(userName: string, userLocation: string) {
+    function submitForm(userName: string, userLocation: string, points: number) {
         axios.post('http://localhost:3000', {
             name: userName,
-            location: userLocation
+            location: userLocation,
+            points: points
         })
       .then((response) => {
         console.log(response);
@@ -51,7 +55,7 @@ export default function Home() {
       axios.get(`http://localhost:3000/${id}`)
       .then((response) => {
         console.log(response);
-        setSharedValue(response.data[0].name);
+        setSharedValue(response.data[0]);
       })
       .catch((error) => {
         console.log(error);
@@ -70,25 +74,29 @@ export default function Home() {
       });
     }
 
-    function updateUser(id: number) {
+    function updateUser(id: number, name: string, location: string, points: number) {
       setMenu(true);
       setId(id);
+      setName(name);
+      setLocation(location);
+      setUpdatedPoints(points);
     }
 
     function UpdateMenu() {
       const inputRefName = useRef() as React.MutableRefObject<HTMLInputElement>;
       const inputRefLocation = useRef() as React.MutableRefObject<HTMLInputElement>;
 
-
       function updateUserByID(id: number) {
         axios.put(`http://localhost:3000/${id}`, {
           name: inputRefName.current.value,
-          location: inputRefLocation.current.value
+          location: inputRefLocation.current.value,
+          points : updatedPoints
         })
         .then((response) => {
           console.log(response);
           setUpdateResponse('User updated successfully!');
           viewAllUsers();
+          setMenu(false);
         })
         .catch((error) => {
           console.log(error);
@@ -106,20 +114,28 @@ export default function Home() {
           <input
           className='updateUser'
           type='text'
-          placeholder='Name'
+          placeholder={name}
           ref = {inputRefName}
           />
           <label>Enter Location: </label>
           <input
           className='updateUser'
           type='text'
-          placeholder='Location'
+          placeholder={location}
           ref = {inputRefLocation}
           />
+          <label>Enter Points: </label>
+          <input
+          className='updateUser'
+          type='number'
+          placeholder='Points'
+          step = '5'
+          value={updatedPoints}
+          onChange={(e) => setUpdatedPoints(Number(e.target.value))}
+          ></input>
           <button
           onClick={() => updateUserByID(id)}
           >Update User</button>
-          {updateResponse}
         </div>
       )
     }
@@ -140,8 +156,16 @@ export default function Home() {
           onChange={(e) => setLocation(e.target.value)}
           >
           </input>
+          <label>Enter Points: </label>
+          <input type='number'
+          placeholder='Points'
+          className='points'
+          step = '5'
+          value={points}
+          onChange={(e) => setPoints(Number(e.target.value))}
+          ></input>
           <button
-          onClick={() => submitForm(name, location)}
+          onClick={() => submitForm(name, location, points)}
           >Submit New User</button>
           <p>{response}</p>
           <button onClick={() => viewAllUsers()}>View All Users</button>
@@ -150,12 +174,13 @@ export default function Home() {
             <div key={user.id}>
               <Link to = '/rewards'><button onClick={() => viewUser(user.id)}>Go to {user.name}'s Account</button></Link>
               <button onClick={() => deleteUser(user.id)}>Delete {user.name}</button>
-              <button onClick={() => updateUser(user.id)}>Update {user.name}</button>
+              <button onClick={() => updateUser(user.id,user.name,user.location,user.points)}>Update {user.name}</button>
             </div>
           )
           }
           </div> 
           {menu ? <UpdateMenu /> : null}
+          {updateResponse}
         </div>
     )
 }
