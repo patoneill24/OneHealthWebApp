@@ -41,7 +41,15 @@ docker compose down
 ```
 You'll need to create .env file in the root directory and in the server directory to specify the following environment variables to interact with the database. 
 ```
-POSTGRES_USER
-POSTGRES_PASSWORD
+POSTGRES_USER = ${USERNAME}
+POSTGRES_PASSWORD = ${PASSWORD}
 
 ```
+
+In the server directory, along with variables meantioned above, you need to define the following environment variables: 
+
+```
+DEV_PORT = 4004
+```
+
+If you want to use a different port, you'll have to change which port you're exposing in your docker file along with the port mapping argument in the docker-compose.yaml file. 
