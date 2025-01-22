@@ -48,6 +48,10 @@ export default function Rewards(){
     }
 
     function getReward(id: number,points: number){
+        if(points > sharedValue.points){
+            alert('Not enough points to redeem this reward');
+            return;
+        }
         axios.get(`http://localhost:3000/rewards/${id}`)
         .then((response) => {
           console.log(response.data[0]);

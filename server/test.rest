@@ -3,8 +3,9 @@ POST http://localhost:3000
 Content-Type: application/json
 
 {
-    "name": "Frank",
-    "location": "Georgia"
+    "name": "Larry",
+    "location": "Georgia",
+    "points": 100
 }
 
 ###
@@ -42,3 +43,6 @@ Content-Type: application/json
     "user_id": 8,
     "reward_id": 1
 }
+
+### 
+GET http://localhost:3000/admin

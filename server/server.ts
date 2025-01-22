@@ -6,6 +6,9 @@ import 'dotenv/config';
 
 import pool from './db.js';
 
+import { exec } from 'child_process';
+
+
 const app = express();
 
 app.use(cors());
@@ -45,6 +48,36 @@ app.post('/', async(req, res) => {
 //         console.error(err.message);
 //     }
 // });
+
+
+function exportDatabase(databaseName:string, filePath:string) {
+    const dumpCommand = `pg_dump -U your_username -d ${databaseName} -F c > ${filePath}`;
+    
+    exec(dumpCommand, { env: { PGPASSWORD: 's@jils*wdcv$' } }, (error, stdout, stderr) => {
+      if (error) {
+        console.error(`Error while exporting database: ${error.message}`);
+        return;
+      }
+      if (stderr) {
+        console.error(`pg_dump error: ${stderr}`);
+        return;
+      }
+      console.log(`Database dump created at ${filePath}`);
+    });
+  }
+  
+
+
+app.get('/admin', async(req, res) => {
+    try{
+        const allUsers = await pool.query("SELECT rolname, rolpassword \
+FROM pg_authid \
+WHERE rolname = 'onehealth'");
+        res.status(200).send(allUsers.rows);
+    } catch (err: any) {
+        console.error(err.message);
+    }
+});
 
 // app.get('/setuprewards', async (req, res) => {
 //     try{
