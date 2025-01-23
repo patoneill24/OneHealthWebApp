@@ -1,6 +1,6 @@
 /* Header styling */
 .logo-header {
-    padding-bottom: 10rem;
+    padding-bottom: 5rem;
 }
 
 
@@ -11,8 +11,8 @@
    justify-content: center;
    align-content: center;
    margin: 20px;
-   padding-top: 20px;
-   padding-bottom: 60px;
+   padding-top: 10px;
+   /* padding-bottom: 20px; */
 }
 
 /* Input styling */
@@ -41,6 +41,7 @@ form {
 .login-card {
     background-color: white;
     padding: 0.5rem;
+    width: 300px;
 }
 
 /* Label styling */
@@ -60,22 +61,38 @@ label {
     flex: 1;
 }
 
-.user-help > a {
-    font-size: 12px;
-    font-weight: normal;
-    color: #0d4a83;
-}
-
 /* .user-help > label:nth-of-type(1) {
     justify-items: flex-start;
 } */
 
 .user-help > label, .user-help > a {
+    font-size: 12px;
     flex: 8;
+    color: #0d4a83; 
+    font-weight: normal;
+}
+
+/* Account creation link */
+
+.account-creation {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.account-creation p {
+    color: black;
+    font-size: 12px;
+}
+
+.account-creation {
+    color: #0d4a83;
+    font-size: 12px;
 }
 
 /* Button styling */
-button {
+.login-button {
     background-color: #0d4a83;
+    margin-top: 20px;
 }
 

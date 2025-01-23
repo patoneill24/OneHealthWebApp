@@ -47,7 +47,16 @@ export default function Login(){
                                 Forgot Password?
                             </a>
                         </div>
-                        <button type="button" onSubmit={handleLogin}>Login</button>
+                        <button 
+                            className="login-button" 
+                            type="button" 
+                            onSubmit={handleLogin}>
+                        Login
+                        </button>
+                        <div className="account-creation">
+                            <p>Don't have an account?</p>
+                            <a href="#create-account">Create one</a>
+                        </div>
                     </form>
                 </div>
             </div>
