@@ -1,0 +1,81 @@
+/* Header styling */
+.logo-header {
+    padding-bottom: 10rem;
+}
+
+
+/* Form styling */
+.login-form {
+   display: flex;
+   flex-flow: column nowrap; 
+   justify-content: center;
+   align-content: center;
+   margin: 20px;
+   padding-top: 20px;
+   padding-bottom: 60px;
+}
+
+/* Input styling */
+
+input[type=password], input[type=email] {
+    height: 2.5rem;
+    padding-left: 30px;
+    border-radius: 30px;
+    border-style: hidden;
+    background-color: rgb(213, 212, 212);
+    color: grey;
+}
+
+input[type=checkbox] {
+    flex: 1;
+    align-self: flex-start;
+}
+
+form {
+    display: flex;
+    flex-flow: column;
+    row-gap: 25px;
+}
+
+/* Login card styling */
+.login-card {
+    background-color: white;
+    padding: 0.5rem;
+}
+
+/* Label styling */
+label {
+    font-size: 12px;
+    color: #0d4a83;
+}
+
+/* Login links */
+.user-help {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.user-help input[type=checkbox] {
+    flex: 1;
+}
+
+.user-help > a {
+    font-size: 12px;
+    font-weight: normal;
+    color: #0d4a83;
+}
+
+/* .user-help > label:nth-of-type(1) {
+    justify-items: flex-start;
+} */
+
+.user-help > label, .user-help > a {
+    flex: 8;
+}
+
+/* Button styling */
+button {
+    background-color: #0d4a83;
+}
+
