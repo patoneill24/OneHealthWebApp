@@ -1,6 +1,16 @@
+/* Body styling */
+.login-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: stretch;
+}
+
 /* Header styling */
 .logo-header {
-    padding-bottom: 5rem;
+    padding-top: 5rem;
+    padding-bottom: 2rem;
+    flex: 1;
 }
 
 /* Login card styling */
@@ -9,6 +19,8 @@
     flex-flow: column nowrap; 
     justify-content: center;
     align-content: center;
+    border-radius: 20px;
+    flex: 3;
 }
 
 /* Form styling */
@@ -71,6 +83,7 @@ label {
     flex: 8;
     color: #0d4a83; 
     font-weight: normal;
+    text-decoration: none;
 }
 
 /* Account creation link */
