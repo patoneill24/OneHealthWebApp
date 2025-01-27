@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import { useAppContext } from '../contexts/userContexts';
 import axios from 'axios';
 import { useState , useEffect} from 'react';
@@ -144,8 +143,10 @@ export default function Rewards(){
         return (
             <>
             <h1>Redeemed Rewards</h1>
-            <button onClick={() => ViewPastRewards()}>Refresh Rewards History</button>
-            <button onClick={() => setViewRewardsHistory(false)}> Hide Rewards History</button>
+            <div className = 'rewards_history_buttons'>
+              <button onClick={() => ViewPastRewards()}>Refresh Rewards History</button>
+              <button onClick={() => setViewRewardsHistory(false)}> Hide Rewards History</button>
+            </div>
             {rewardsWon.map((reward) => (
                 <div key={reward.name}>
                     <h1>{reward.name}</h1>
@@ -157,18 +158,30 @@ export default function Rewards(){
         )
     }
 
+    function SignOut(){
+        setSharedValue({id:0, name: "", location: "", points: 0});
+    }
+
     useEffect(() => {
         getRewards();
     },[])
-    
+
+    if(sharedValue.name === ""){
+        return(
+            <div>
+                <h1>Welcome to Rewards Page!</h1>
+                <h2>Please Login or Register</h2>
+            </div>
+        )
+    } 
     return (
         <div>
-            <Link to='/'>Home</Link>
-            <h1>Welcome to { sharedValue.name }'s account! </h1>
+            <h1>Welcome to { sharedValue.name }'s Rewards Page! </h1>
             <h2>Points Avaliable: {sharedValue.points}</h2>
             <h3>Location: {sharedValue.location}</h3>
+            <button onClick={() => SignOut()}>Sign Out</button>
             <RewardsAvilable />
-            <h4>Redeemed Rewards</h4>
+            <h1>Redeemed Rewards</h1>
             <button onClick={() => ViewPastRewards()}>Click to View</button>
             {viewRewardsHistory && <RewardsHistory />}
         </div>
