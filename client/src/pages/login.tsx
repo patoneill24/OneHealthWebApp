@@ -13,6 +13,7 @@ export default function Login(){
 
     return (
         <>
+          <div className="login-body">
             <div className="logo-header">
                 <OneHealthLogo />
                 <h1>ONEHEALTH</h1>
@@ -60,6 +61,7 @@ export default function Login(){
                     </form>
                 </div>
             </div>
+          </div>
         </>
     )
 }
