@@ -2,7 +2,6 @@ import './App.css';
 import { Routes,Route } from 'react-router';
 import Rewards from './pages/rewards';
 import Home from './pages/home';
-import Login from './pages/Login';
 import { BrowserRouter } from 'react-router';
 import { AppProvider } from './contexts/userContexts';
 import Navbar from './assets/navbar';
