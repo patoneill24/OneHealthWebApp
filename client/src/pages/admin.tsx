@@ -11,7 +11,7 @@ interface User {
     points: number;
   }
 
-export default function Login(){
+export default function Admin(){
     const { setSharedValue } = useAppContext();
     const [id, setId] = useState(0);
     const [name, setName] = useState('');

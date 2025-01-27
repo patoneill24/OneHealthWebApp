@@ -9,6 +9,7 @@ import Login from './pages/login';
 import Register from './pages/register';
 import Learn from './pages/learn';
 import Medication from './pages/medications';
+import Admin from './pages/admin';
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
           <Route path ='/medication' element={<Medication />} />
           <Route path ='/login' element={<Login />} />
           <Route path ='/register' element={<Register/>} />
+          <Route path='/admin' element={<Admin /> } />
         </Routes>
         </BrowserRouter>
     </AppProvider>
