@@ -57,18 +57,27 @@ If you want to use a different port, you'll have to change which port you're exp
 
 # SQL DUMP File
 
-The sql dump file is located in the root directory of the project. You can use it to populate the database with some data. To do this, you'll need to run the following docker commands in the root direcotry of the project. 
+The sql dump file is located in the root directory of the project. You can use it to populate the database with some data. To do this, you'll need to run the following docker commands in the root directory of the project.
 
 ```bash
 psql -U username -h localhost database_name < dump.sql
 ```
 
-You can test the database connection by running the following command in the root directory of the project. 
+You can test the database connection by running the following command in the root directory of the project.
 
 ```bash
 psql -U username -h localhost database_name
 ```
+***NOTE***: Windows users need to first connect to the docker container before they can test database connection. _Make sure your docker containers are running!!_
 
+```bash
+docker exec -it docker-image-name bash
+```
+In our case, the database is being hosted on _one-health-db-1_. After connecting to our docker container we can now connect to the postgres db.
+
+```bash
+psql -U username
+```
 You can then run queries to check if the data was populated correctly.
 
 For the host, you can use localhost or the name of the POSTGRESQL container. 
