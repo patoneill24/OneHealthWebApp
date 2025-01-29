@@ -4,10 +4,9 @@ import cors from 'cors';
 
 import 'dotenv/config';
 
-import pool from './db.js';
+import userRouter from './routes/users.js';
 
-import { exec } from 'child_process';
-
+import rewardsRouter from './routes/rewards.js';
 
 const app = express();
 
@@ -15,27 +14,30 @@ app.use(cors());
 
 app.use(express.json());
 
-app.get('/', async(req, res) => {
-    try{
-        const allUsers = await pool.query('SELECT * FROM users ORDER BY id ASC');
-        res.status(200).send(allUsers.rows);
-    } catch (err: any) {
-        console.error(err.message);
-    }
-});
+// app.get('/', async(req, res) => {
+//     try{
+//         const allUsers = await pool.query('SELECT * FROM users ORDER BY id ASC');
+//         res.status(200).send(allUsers.rows);
+//     } catch (err: any) {
+//         console.error(err.message);
+//     }
+// });
 
+app.use('/users', userRouter);
 
-app.post('/', async(req, res) => {
-    const { name, location, points } = req.body;
-    try{
-        await pool.query('INSERT INTO users (name, location,points) VALUES($1, $2, $3)', [name, location, points]);
-        res.status(200).send({
-            message: "susccessfully added user",
-        })
-    } catch (err: any) {
-        console.error(err.message);
-    }
-});
+app.use('/rewards', rewardsRouter);
+
+// app.post('/', async(req, res) => {
+//     const { name, location, points } = req.body;
+//     try{
+//         await pool.query('INSERT INTO users (name, location,points) VALUES($1, $2, $3)', [name, location, points]);
+//         res.status(200).send({
+//             message: "susccessfully added user",
+//         })
+//     } catch (err: any) {
+//         console.error(err.message);
+//     }
+// });
 
 
 // app.get('/setup', async (req, res) => {
@@ -50,34 +52,19 @@ app.post('/', async(req, res) => {
 // });
 
 
-function exportDatabase(databaseName:string, filePath:string) {
-    const dumpCommand = `pg_dump -U your_username -d ${databaseName} -F c > ${filePath}`;
-    
-    exec(dumpCommand, { env: { PGPASSWORD: 's@jils*wdcv$' } }, (error, stdout, stderr) => {
-      if (error) {
-        console.error(`Error while exporting database: ${error.message}`);
-        return;
-      }
-      if (stderr) {
-        console.error(`pg_dump error: ${stderr}`);
-        return;
-      }
-      console.log(`Database dump created at ${filePath}`);
-    });
-  }
   
 
 
-app.get('/admin', async(req, res) => {
-    try{
-        const allUsers = await pool.query("SELECT rolname, rolpassword \
-FROM pg_authid \
-WHERE rolname = 'onehealth'");
-        res.status(200).send(allUsers.rows);
-    } catch (err: any) {
-        console.error(err.message);
-    }
-});
+// app.get('/admin', async(req, res) => {
+//     try{
+//         const allUsers = await pool.query("SELECT rolname, rolpassword \
+// FROM pg_authid \
+// WHERE rolname = 'onehealth'");
+//         res.status(200).send(allUsers.rows);
+//     } catch (err: any) {
+//         console.error(err.message);
+//     }
+// });
 
 // app.get('/setuprewards', async (req, res) => {
 //     try{
@@ -90,100 +77,100 @@ WHERE rolname = 'onehealth'");
 //     }
 // });
 
-app.get('/rewards', async(req, res) => {
-    try{
-        const allRewards = await pool.query('SELECT * FROM rewards ORDER BY id ASC');
-        res.status(200).send(allRewards.rows);
-    } catch (err: any) {
-        console.error(err.message);
-    }
-});
+// app.get('/rewards', async(req, res) => {
+//     try{
+//         const allRewards = await pool.query('SELECT * FROM rewards ORDER BY id ASC');
+//         res.status(200).send(allRewards.rows);
+//     } catch (err: any) {
+//         console.error(err.message);
+//     }
+// });
 
-app.post('/rewards', async(req, res) => {
-    const { name, points } = req.body;
-    try{
-        await pool.query('INSERT INTO rewards (name, points) VALUES($1, $2)', [name, points]);
-        res.status(200).send({
-            message: "susccessfully added reward",
-        })
-    } catch (err: any) {
-        console.error(err.message);
-    }
-});
+// app.post('/rewards', async(req, res) => {
+//     const { name, points } = req.body;
+//     try{
+//         await pool.query('INSERT INTO rewards (name, points) VALUES($1, $2)', [name, points]);
+//         res.status(200).send({
+//             message: "susccessfully added reward",
+//         })
+//     } catch (err: any) {
+//         console.error(err.message);
+//     }
+// });
 
-app.get('/rewards/:id', async(req, res) => {
-    const { id } = req.params;
-    try{
-        const reward = await pool.query('SELECT * FROM rewards WHERE id = $1', [id]);
-        res.status(200).send(reward.rows);
-    } catch (err: any) {
-        console.error(err.message);
-    }
-});
-
-
-
-app.get('/:id', async(req, res) => {
-    const { id } = req.params;
-    try{
-        const user = await pool.query('SELECT * FROM users WHERE id = $1', [id]);
-        res.status(200).send(user.rows);
-    } catch (err: any) {
-        console.error(err.message);
-    }
-});
+// app.get('/rewards/:id', async(req, res) => {
+//     const { id } = req.params;
+//     try{
+//         const reward = await pool.query('SELECT * FROM rewards WHERE id = $1', [id]);
+//         res.status(200).send(reward.rows);
+//     } catch (err: any) {
+//         console.error(err.message);
+//     }
+// });
 
 
-app.put('/:id', async(req, res) => {
-    const { id } = req.params;
-    const { name, location, points} = req.body;
-    try{
-        await pool.query('UPDATE users SET name = $1, location = $2, points = $3 WHERE id = $4', [name, location,points,id]);
-        res.status(200).send({
-            message: "successfully updated user",
-        });
-    } catch (err: any) {
-        console.error(err.message);
-    }
-});
 
-app.delete('/:id', async(req, res) => {
-    const { id } = req.params;
-    try{
-        await pool.query('DELETE FROM users WHERE id = $1', [id]);
-        res.status(200).send({
-            message: "successfully deleted user",
-        });
-    } catch (err: any) {
-        console.error(err.message);
-    }
-});
+// app.get('/:id', async(req, res) => {
+//     const { id } = req.params;
+//     try{
+//         const user = await pool.query('SELECT * FROM users WHERE id = $1', [id]);
+//         res.status(200).send(user.rows);
+//     } catch (err: any) {
+//         console.error(err.message);
+//     }
+// });
+
+
+// app.put('/:id', async(req, res) => {
+//     const { id } = req.params;
+//     const { name, location, points} = req.body;
+//     try{
+//         await pool.query('UPDATE users SET name = $1, location = $2, points = $3 WHERE id = $4', [name, location,points,id]);
+//         res.status(200).send({
+//             message: "successfully updated user",
+//         });
+//     } catch (err: any) {
+//         console.error(err.message);
+//     }
+// });
+
+// app.delete('/:id', async(req, res) => {
+//     const { id } = req.params;
+//     try{
+//         await pool.query('DELETE FROM users WHERE id = $1', [id]);
+//         res.status(200).send({
+//             message: "successfully deleted user",
+//         });
+//     } catch (err: any) {
+//         console.error(err.message);
+//     }
+// });
 
 // redeemed_prizes
 
-app.get('/:user_id/rewards', async(req, res) => {
-    const { user_id} = req.params;
-    try{
-        const user = await pool.query("SELECT rewards.name, rewards.points, TO_CHAR(timezone('America/Denver', redeem_date), 'Mon DD, YYYY FMHH12:MIAM') AS redeem_date FROM redeemed_prizes JOIN rewards ON redeemed_prizes.reward_id = rewards.id WHERE redeemed_prizes.user_id = $1", [user_id]);
-        res.status(200).send({
-            user: user.rows,
-        });
-    } catch (err: any) {
-        console.error(err.message);
-    }
-});
+// app.get('/:user_id/rewards', async(req, res) => {
+//     const { user_id} = req.params;
+//     try{
+//         const user = await pool.query("SELECT rewards.name, rewards.points, TO_CHAR(timezone('America/Denver', redeem_date), 'Mon DD, YYYY FMHH12:MIAM') AS redeem_date FROM redeemed_prizes JOIN rewards ON redeemed_prizes.reward_id = rewards.id WHERE redeemed_prizes.user_id = $1", [user_id]);
+//         res.status(200).send({
+//             user: user.rows,
+//         });
+//     } catch (err: any) {
+//         console.error(err.message);
+//     }
+// });
 
-app.post('/:user_id/rewards', async(req, res) => {
-    const { user_id, reward_id } = req.body;
-    try{
-        await pool.query('INSERT INTO redeemed_prizes VALUES($1, $2, CURRENT_TIMESTAMP)', [user_id, reward_id]);
-        res.status(200).send({
-            message: "susccessfully added reward",
-        })
-    } catch (err: any) {
-        console.error(err.message);
-    }
-});
+// app.post('/:user_id/rewards', async(req, res) => {
+//     const { user_id, reward_id } = req.body;
+//     try{
+//         await pool.query('INSERT INTO redeemed_prizes VALUES($1, $2, CURRENT_TIMESTAMP)', [user_id, reward_id]);
+//         res.status(200).send({
+//             message: "susccessfully added reward",
+//         })
+//     } catch (err: any) {
+//         console.error(err.message);
+//     }
+// });
 
 
 app.listen(process.env.DEV_PORT, () => {

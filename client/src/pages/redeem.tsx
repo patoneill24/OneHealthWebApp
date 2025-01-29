@@ -34,7 +34,7 @@ export default function Rewards(){
     }
 
     function redeemReward(id: number){
-        axios.post(`http://localhost:3000/${sharedValue.id}/rewards`, {
+        axios.post(`http://localhost:3000/users/${sharedValue.id}/rewards`, {
             user_id: sharedValue.id,
             reward_id: id
         })
@@ -63,7 +63,7 @@ export default function Rewards(){
     }
 
     function getPoints(){
-        axios.get(`http://localhost:3000/${sharedValue.id}`)
+        axios.get(`http://localhost:3000/users/${sharedValue.id}`)
         .then((response) => {
           setSharedValue(response.data[0]);
           console.log(response.data);
@@ -74,7 +74,7 @@ export default function Rewards(){
     }
 
     function AddPoints(){
-        axios.put(`http://localhost:3000/${sharedValue.id}`, {
+        axios.put(`http://localhost:3000/users/${sharedValue.id}`, {
             name: sharedValue.name,
             location: sharedValue.location,
             points: sharedValue.points + 10
@@ -90,7 +90,7 @@ export default function Rewards(){
 
 
     function SubtractPoints(cost:number){
-        axios.put(`http://localhost:3000/${sharedValue.id}`, {
+        axios.put(`http://localhost:3000/users/${sharedValue.id}`, {
             name: sharedValue.name,
             location: sharedValue.location,
             points: sharedValue.points - cost
@@ -105,7 +105,7 @@ export default function Rewards(){
     }
 
     function ViewPastRewards(){
-        axios.get(`http://localhost:3000/${sharedValue.id}/rewards`)
+        axios.get(`http://localhost:3000/users/${sharedValue.id}/rewards`)
         .then((response) => {
           console.log(response.data);
           setRewardsWon(response.data.user);

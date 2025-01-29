@@ -1,6 +1,6 @@
 import './App.css';
 import { Routes,Route } from 'react-router';
-import Rewards from './pages/rewards';
+import Redeem from './pages/redeem';
 import Home from './pages/home';
 import { BrowserRouter } from 'react-router';
 import { AppProvider } from './contexts/userContexts';
@@ -12,6 +12,7 @@ import Medication from './pages/medications';
 import Admin from './pages/admin';
 
 
+
 function App() {
   return (
     <>
@@ -20,7 +21,7 @@ function App() {
         <Navbar />
         <Routes>
           <Route path='/' element={<Home />} />
-          <Route path='/rewards' element={<Rewards />} />
+          <Route path='/rewards' element={<Redeem />} />
           <Route path='/learn' element= {<Learn />} />
           <Route path ='/medication' element={<Medication />} />
           <Route path ='/login' element={<Login />} />

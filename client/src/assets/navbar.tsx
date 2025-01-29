@@ -38,6 +38,7 @@ export default function Navbar(){
         <Link to='/learn'><span onClick={(e)=> activeLine(e)}>Learn</span></Link>
         <Link to='/medication'><span onClick={(e)=> activeLine(e)}>Medication</span></Link>
         <Link to='/login'><span onClick={(e)=> activeLine(e)}>Login</span></Link>
+        <Link to='/admin'><span onClick={(e)=> activeLine(e)}>Admin</span></Link>
         <Link to='/register'><span onClick={(e)=> activeLine(e)}>Register</span></Link>
     </div>
     )

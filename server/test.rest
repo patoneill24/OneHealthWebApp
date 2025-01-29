@@ -1,20 +1,28 @@
 ### 
-POST http://localhost:3000
+POST http://localhost:3000/users
 Content-Type: application/json
 
 {
-    "name": "Larry",
-    "location": "Georgia",
+    "name": "Jerimiah",
+    "location": "New York",
     "points": 100
 }
 
 ###
 
+POST http://localhost:3000/rewards
+Content-Type: application/json
+
+{
+    "name": "Free Coffee",
+    "points": 100
+}
+
 ###
-GET http://localhost:3000
+GET http://localhost:3000/users
 ###
 
-GET http://localhost:3000/2
+GET http://localhost:3000/users/2
 
 ###
 
@@ -23,7 +31,7 @@ GET http://localhost:3000/rewards
 ###
 
 
-PUT http://localhost:3000/2
+PUT http://localhost:3000/users/2
 Content-Type: application/json
 
 {
@@ -46,3 +54,6 @@ Content-Type: application/json
 
 ### 
 GET http://localhost:3000/admin
+
+###
+
