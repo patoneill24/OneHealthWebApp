@@ -33,8 +33,11 @@ export default function Rewards(){
         });
     }
 
+    //            GET http://localhost:3000/users/rewards/2
+
     function redeemReward(id: number){
-        axios.post(`http://localhost:3000/users/${sharedValue.id}/rewards`, {
+        console.log(`Id = ${sharedValue.id}`);
+        axios.post(`http://localhost:3000/users/rewards/${sharedValue.id}`, {
             user_id: sharedValue.id,
             reward_id: id
         })
@@ -104,16 +107,17 @@ export default function Rewards(){
         });
     }
 
+    //                 GET http://localhost:3000/users/rewards/2
+
     function ViewPastRewards(){
-        axios.get(`http://localhost:3000/users/${sharedValue.id}/rewards`)
+        axios.get(`http://localhost:3000/users/rewards/${sharedValue.id}`)
         .then((response) => {
           console.log(response.data);
-          setRewardsWon(response.data.user);
+          setRewardsWon(response.data);
           setViewRewardsHistory(true);
         })
-        .catch((error) => {
-          console.log(error);
-          console.log('No Rewards Redeemed');
+        .catch(() => {
+          console.log('error');
         });
     }
 

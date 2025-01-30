@@ -8,6 +8,8 @@ import userRouter from './routes/users.js';
 
 import rewardsRouter from './routes/rewards.js';
 
+import userRewardsRouter from './routes/userRewards.js';
+
 const app = express();
 
 app.use(cors());
@@ -23,9 +25,14 @@ app.use(express.json());
 //     }
 // });
 
+app.use('/users/rewards', userRewardsRouter);
+
 app.use('/users', userRouter);
 
+
 app.use('/rewards', rewardsRouter);
+
+
 
 // app.post('/', async(req, res) => {
 //     const { name, location, points } = req.body;
