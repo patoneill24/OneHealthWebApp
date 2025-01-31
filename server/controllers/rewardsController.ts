@@ -1,11 +1,20 @@
 import pool from '../model/db.js';
 
-import { selectAllRewards, selectRewardById, insertReward } from '../services/rewardsQueries.js';
+import { selectAllRewards, selectAllActiveRewards,selectRewardById, insertReward, changeReward } from '../services/rewardsQueries.js';
 
 export const getRewards =  async(req:any, res:any) => {
     try{
         const allRewards = (await selectAllRewards())?.rows;
         res.status(200).send(allRewards);
+    } catch (err: any) {
+        console.error(err.message);
+    }
+}
+
+export const getActiveRewards = async(req:any, res:any) => {
+    try{
+        const allActiveRewards = (await selectAllActiveRewards())?.rows;
+        res.status(200).send(allActiveRewards);
     } catch (err: any) {
         console.error(err.message);
     }
@@ -28,6 +37,20 @@ export const getReward = async(req:any, res:any) => {
     try{
         const reward = (await selectRewardById(id))?.rows; 
         res.status(200).send(reward);
+    } catch (err: any) {
+        console.error(err.message);
+    }
+}
+
+
+export const updateReward = async(req:any, res:any) => {
+    const { id } = req.params;
+    const { name, points , status} = req.body;
+    try{
+        changeReward(id, name, points, status);
+        res.status(200).send({
+            message: "susccessfully updated reward",
+        })
     } catch (err: any) {
         console.error(err.message);
     }

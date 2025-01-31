@@ -19,9 +19,9 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:3000/users/40
+GET http://localhost:3000/users
 ###
-GET http://localhost:3000/users/rewards/2
+GET http://localhost:3000/users/rewards/3
 ###
 POST  http://localhost:3000/users/rewards/2
 Content-Type: application/json
@@ -36,8 +36,9 @@ Content-Type: application/json
 GET http://localhost:3000/rewards
 
 ###
+DELETE http://localhost:3000/rewards/4
 
-
+###
 PUT http://localhost:3000/users/2
 Content-Type: application/json
 
@@ -60,7 +61,7 @@ Content-Type: application/json
 }
 
 ### 
-GET http://localhost:3000/rewards/2
+GET http://localhost:3000/users
 
 ###
 

@@ -1,9 +1,9 @@
 import {inputReward, selectRewards} from "../services/userRewardsQueries.js";
 
 export const addReward = async(req:any, res:any) => {
-    const { user_id, reward_id } = req.body;
+    const { user_id, reward_id , price_at_pruchase} = req.body;
     try{
-        inputReward(user_id, reward_id);
+        inputReward(user_id, reward_id, price_at_pruchase);
         res.status(200).send({
             message: "susccessfully added reward",
         })

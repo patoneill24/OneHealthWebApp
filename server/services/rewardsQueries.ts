@@ -1,7 +1,12 @@
 import pool from "../model/db.js";
 
 export const selectAllRewards = () => {
-    const rewards = pool.query('SELECT * FROM rewards');
+    const rewards = pool.query('SELECT * FROM rewards ORDER BY id');
+    return rewards;
+}
+
+export const selectAllActiveRewards = () => {
+    const rewards = pool.query('SELECT * FROM rewards WHERE status=$1 ORDER BY id', ['active']);
     return rewards;
 }
 
@@ -12,4 +17,8 @@ export const selectRewardById = (id: number) => {
 
 export const insertReward = (name: string, points: number) => {
     pool.query('INSERT INTO rewards VALUES (DEFAULT,$1, $2)', [name, points]);
+}
+
+export const changeReward = (id: number, name: string, points: number, status:string) => {
+    pool.query('UPDATE rewards SET name=$1, points=$2, status=$3 WHERE id=$4', [name, points, status,id]);
 }

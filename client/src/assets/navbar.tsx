@@ -34,11 +34,12 @@ export default function Navbar(){
     <div className='nav-container'>
         <img className='logo' src={Logo} alt={'logo'}></img>
         <Link to='/'><span onClick={(e)=> activeLine(e)}>Home</span></Link>
-        <Link to='/rewards'><span onClick={(e)=> activeLine(e)}>Rewards</span></Link>
+        <Link to='/rewards'><span onClick={(e)=> activeLine(e)}>Prizes </span></Link>
         <Link to='/learn'><span onClick={(e)=> activeLine(e)}>Learn</span></Link>
         <Link to='/medication'><span onClick={(e)=> activeLine(e)}>Medication</span></Link>
         <Link to='/login'><span onClick={(e)=> activeLine(e)}>Login</span></Link>
-        <Link to='/admin'><span onClick={(e)=> activeLine(e)}>Admin</span></Link>
+        <Link to='/admin'><span onClick={(e)=> activeLine(e)}>Accounts</span></Link>
+        <Link to='/adminrewards'><span onClick={(e)=> activeLine(e)}>Rewards</span></Link>
         <Link to='/register'><span onClick={(e)=> activeLine(e)}>Register</span></Link>
     </div>
     )

@@ -11,7 +11,7 @@ interface RewardsProps {
 
 interface RewardsHistory {
     name: string;
-    points: number;
+    price_at_purchase: number;
     redeem_date: string;
 }
 
@@ -23,7 +23,7 @@ export default function Rewards(){
     const [viewRewardsHistory, setViewRewardsHistory] = useState<boolean>(false);
 
     function getRewards(){
-        axios.get(`http://localhost:3000/rewards`)
+        axios.get(`http://localhost:3000/rewards/active`)
         .then((response) => {
           setRewards(response.data);
           console.log(response.data);
@@ -35,11 +35,12 @@ export default function Rewards(){
 
     //            GET http://localhost:3000/users/rewards/2
 
-    function redeemReward(id: number){
+    function redeemReward(id: number, cost: number){
         console.log(`Id = ${sharedValue.id}`);
         axios.post(`http://localhost:3000/users/rewards/${sharedValue.id}`, {
             user_id: sharedValue.id,
-            reward_id: id
+            reward_id: id,
+            price_at_pruchase: cost
         })
         .then(() => {
           console.log('Reward Redeemed');
@@ -58,7 +59,7 @@ export default function Rewards(){
         .then((response) => {
           console.log(response.data[0]);
           SubtractPoints(points);
-          redeemReward(id);
+          redeemReward(id,points);
         })
         .catch((error) => {
           console.log(error);
@@ -154,7 +155,7 @@ export default function Rewards(){
             {rewardsWon.map((reward) => (
                 <div key={reward.name}>
                     <h1>{reward.name}</h1>
-                    <h3>Points Redeemed: {reward.points}</h3>
+                    <h3>Points Redeemed: {reward.price_at_purchase}</h3>
                     <h3>Redeemed on: {reward.redeem_date}</h3>
                 </div>
             ))}
