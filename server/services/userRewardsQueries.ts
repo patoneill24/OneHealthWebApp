@@ -7,3 +7,24 @@ export const selectRewards = (user_id: number) => {
     const rewards = pool.query("SELECT rewards.name, redeemed_prizes.price_at_purchase, TO_CHAR(timezone('America/Denver', redeem_date), 'Mon DD, YYYY FMHH12:MIAM') AS redeem_date FROM redeemed_prizes JOIN rewards ON redeemed_prizes.reward_id = rewards.id WHERE redeemed_prizes.user_id = $1", [user_id]);;
     return rewards;
   };
+
+export const selectPopularPrizesByUser = (user_id: number) => {
+    const rewards = pool.query("SELECT rp.reward_id, r.name, \
+      COUNT(rp.reward_id) AS redeemed_count FROM redeemed_prizes rp \
+      JOIN rewards r ON rp.reward_id = r.id WHERE rp.user_id = $1 GROUP BY rp.reward_id,r.name ORDER BY redeemed_count DESC", [user_id]);;
+    return rewards;
+  }
+
+export const selectPopularPrizes = () => {
+    const rewards = pool.query("SELECT rp.reward_id,r.name, \
+        COUNT(rp.reward_id) AS redeem_count FROM redeemed_prizes rp \
+        JOIN rewards r ON rp.reward_id = r.id GROUP BY rp.reward_id,r.name ORDER BY redeem_count DESC");
+    return rewards;
+}
+
+export const selectPopularPrizesByLocation = (location: string) => {
+    const rewards = pool.query("SELECT rp.reward_id,r.name, \
+        COUNT(rp.reward_id) AS redeem_count FROM redeemed_prizes rp \
+        JOIN rewards r ON rp.reward_id = r.id JOIN users u ON rp.user_id = u.id WHERE u.location = $1 GROUP BY rp.reward_id,r.name ORDER BY redeem_count DESC", [location]);
+    return rewards;
+}

@@ -61,7 +61,14 @@ Content-Type: application/json
 }
 
 ### 
-GET http://localhost:3000/users
+GET http://localhost:3000/users/rewards/2
 
 ###
 
+GET http://localhost:3000/users/rewards/popular
+
+###
+
+GET http://localhost:3000/users
+
+###

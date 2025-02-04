@@ -349,3 +349,4 @@ ALTER TABLE ONLY public.redeemed_prizes
 -- PostgreSQL database dump complete
 --
 
+-- login with psql to create the database. (psql -U onehealth). Then run the command of CREATE DATABASE onehealth;

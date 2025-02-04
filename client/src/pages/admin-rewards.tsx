@@ -1,5 +1,11 @@
 import axios from "axios";
 import { useState, useRef, useEffect } from "react";
+import { Bar } from 'react-chartjs-2';
+import { CategoryScale } from 'chart.js';
+import Chart from 'chart.js/auto'; 
+import Switch from '@mui/material/Switch';
+
+Chart.register(CategoryScale);
 
 interface RewardsProps {
     id: number;
@@ -7,11 +13,27 @@ interface RewardsProps {
     points: number;
     status: string;
 }
+
+interface prizePopularity {
+    reward_id: number;
+    name: string;
+    redeem_count: number;
+}
+
+interface locationProp{
+    location: string;
+}
 export default function AdminRewards() {
     const [rewards, setRewards] = useState<RewardsProps[]>([]);
     const [createMenu, setCreateMenu] = useState<boolean>(false);
     const inputRefName = useRef() as React.MutableRefObject<HTMLInputElement>;
     const inputRefPoints = useRef() as React.MutableRefObject<HTMLInputElement>;
+    const [popularPrizes, setPopularPrizes] = useState<prizePopularity[]>([]);
+    const [showPopularPrizes, setShowPopularPrizes] = useState<boolean>(false);
+    const [locations, setLocations] = useState<locationProp[]>([]);
+    const [locationOption, setLocationOption] = useState<string>('');
+    const [showLocationFilter, setShowLocationFilter] = useState<boolean>(false);
+    const [prizeLength, setPrizeLength] = useState<number>(0);
     function getRewards() {
         axios.get(`http://localhost:3000/rewards`)
         .then((response) => {
@@ -37,26 +59,40 @@ export default function AdminRewards() {
         });
     }
 
-    // function changeActivation(id: number, status: string) {
-    //     console.log(status);
-    //     if(status === 'active'){
-    //         setStatus('inactive');
-    //     } else {
-    //         setStatus('active');
-    //     }
-    //     axios.put(`http://localhost:3000/rewards/${id}`, {
-    //         name: reward?.name,
-    //         points: reward?.points,
-    //         status: rewardstatus
-    //     })
-    //     .then((response) => {
-    //       console.log(response.data);
-    //       getRewards();
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //     });
-    // }
+    function getPopularPrizes() {
+        axios.get(`http://localhost:3000/users/rewards/popular`)
+        .then((response) => {
+          setPopularPrizes(response.data);
+          setPrizeLength(response.data.length);
+          console.log(response.data);
+          setShowPopularPrizes(true);
+          setLocationOption('All Locations');
+          getLocations();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+
+    function getPopularPrizesByLocation(location: string) {
+        axios.get(`http://localhost:3000/users/rewards/popular/${location}`)
+        .then((response) => {
+          setPopularPrizes(response.data);
+          setPrizeLength(response.data.length);
+          console.log(response.data);
+          setLocationOption(location);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+
+
+    function resetFilters(){
+        setShowLocationFilter(false);
+        setLocationOption('All Locations');
+        getPopularPrizes();
+    }
 
     function changeStatus(status: string) {
         if(status === 'active'){
@@ -70,11 +106,22 @@ export default function AdminRewards() {
         axios.put(`http://localhost:3000/rewards/${id}`, {
             name: name,
             points: points,
-            status: changeStatus(status)
+            status: status
         })
         .then((response) => {
             console.log(response.data);
             getRewards();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+
+    function getLocations() {
+        axios.get(`http://localhost:3000/users/locations`)
+        .then((response) => {
+          setLocations(response.data);
+          console.log(response.data);
         })
         .catch((error) => {
           console.log(error);
@@ -87,7 +134,7 @@ export default function AdminRewards() {
             <div className="create-reward">
                 <h3>Create Reward</h3>
                 <form action="">
-                    <input type="text" placeholder="Reward Name" ref={inputRefName}></input>
+                    <input id = "nameText" type="text" placeholder="Reward Name" ref={inputRefName}></input>
                     <input type="Number" placeholder="Points" ref={inputRefPoints}></input>
                     <button onClick={() => addReward(inputRefName.current.value,Number(inputRefPoints.current.value))}>Create</button>
                 </form>
@@ -95,9 +142,77 @@ export default function AdminRewards() {
         )
     }
 
+    function addPoints(points:number){
+        return (points + 5);
+    }
+
+    function subtractPoints(points:number){
+        return (points - 5);
+    }
+
+
     useEffect(() => {
         getRewards();
     }, []);
+
+    function PopularPrizes (){
+        return(
+        <div className="rewards-list-container-admin">
+            <button onClick={() => setShowPopularPrizes(false)}>Close</button>
+            <h4>Filter By Location?</h4>
+            <button onClick={() => setShowLocationFilter(true)}>Yes</button>
+            {showLocationFilter ? filterByLocation() : <></>}
+            {Graph(prizeLength)}
+            <div className="popular-prizes-admin">
+            {popularPrizes.map((prize,index) => {
+                return (
+                    <div className = "rewards-item-admin" key={prize.reward_id}>
+                        <h1> {index + 1}. {prize.name}</h1>
+                        <h3>Redeem Count: {prize.redeem_count}</h3>
+                    </div>
+                )
+            })}
+            </div>
+            </div>
+        )
+    }
+
+    function filterByLocation(){
+        return(
+            <>
+            <select name="selectedLocation" id="selectedLocation" value={locationOption} onChange={(e) => getPopularPrizesByLocation(e.target.value)}>
+            <option value="">All Locations</option>
+            {locations.map((location) => {
+                return(
+                    <option value={location.location}>{location.location}</option>
+                )
+            })}
+            </select>
+            <button onClick={() => resetFilters()}>Close</button>
+            </>
+        )
+    }
+
+    function Graph(prizesLength: number){
+        if(prizesLength === 0){
+            return(
+                <h1>No Data Yet!</h1>
+            )
+        }
+        return(
+            <div className="bar-graph">
+            <Bar data={{
+                labels: popularPrizes.map((prize) => prize.name),
+                datasets: [{
+                    label: "Redeem Count",
+                    data: popularPrizes.map((prize) => prize.redeem_count),
+                    backgroundColor: "blue",
+                }]
+            }}
+            />
+            </div>
+        )
+    }
     
     
     return (
@@ -108,15 +223,24 @@ export default function AdminRewards() {
                 return (
                     <div key= {reward.id} className="rewards-item-admin">
                         <h3>{reward.name}</h3>
-                        <p>Cost: {reward.points} points</p>
-                        <p>Status: {reward.status}</p>
-                        <button onClick={()=> updateReward(reward.id,reward.name,reward.points,reward.status)}>Change Activation</button>
+                        <div className="status-container">
+                        <p>Status:</p>
+                        <Switch checked={reward.status === 'active' ? true : false} onChange={() => updateReward(reward.id,reward.name,reward.points,changeStatus(reward.status))}/>
+                        </div>
+                        <div className="points-container">
+                        <button onClick={() => updateReward(reward.id,reward.name,subtractPoints(reward.points),reward.status)}>-</button>
+                        <p>{reward.points}</p>
+                        <button onClick={()=> updateReward(reward.id,reward.name,addPoints(reward.points),reward.status)}>+</button>
+                        </div>
                     </div>
                 )
             })}
         </div>
         <button className="rewards-button" onClick={() => setCreateMenu(true)}>Add Reward</button>
         {createMenu ? <CreateReward /> : <></>}
+        <h1>Most Popular Prizes</h1>
+        <button onClick={() => getPopularPrizes()}>Get Overall Popular Prizes</button>
+        {showPopularPrizes ? <PopularPrizes /> : <></>}
         </>
     );
 }

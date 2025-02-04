@@ -33,3 +33,8 @@ export const removeUser = (id: number) => {
   pool.query("DELETE FROM users WHERE id = $1", [id]);
 };
 
+export const selectLocations = () => {
+  const locations = pool.query("SELECT DISTINCT location FROM users");
+  return locations;
+}
+

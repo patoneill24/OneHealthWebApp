@@ -1,5 +1,5 @@
 
-import {selectAllUsers, selectUser, createUser, changeUser, removeUser} from '../services/userQueries.js';
+import {selectAllUsers, selectUser, createUser, changeUser, removeUser, selectLocations} from '../services/userQueries.js';
 export const getAllUsers = async(req:any, res: any) => {
     try{
         const allUsers = (await selectAllUsers())!.rows;
@@ -51,6 +51,15 @@ export const deleteUser = async(req:any, res:any) => {
         res.status(200).send({
             message: "successfully deleted user",
         });
+    } catch (err: any) {
+        console.error(err.message);
+    }
+}
+
+export const getLocations = async(req:any, res:any) => {
+    try{
+        const locations = (await selectLocations())?.rows;
+        res.status(200).send(locations);
     } catch (err: any) {
         console.error(err.message);
     }

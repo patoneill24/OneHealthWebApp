@@ -4,7 +4,7 @@ import cors from 'cors';
 
 import 'dotenv/config';
 
-import {getAllUsers, getUser, addUser, updateUser, deleteUser } from '../controllers/usersController.js';
+import {getAllUsers, getUser, addUser, updateUser, deleteUser, getLocations} from '../controllers/usersController.js';
 
 const userRouter = express.Router();
 
@@ -15,6 +15,8 @@ userRouter.use(express.json());
 userRouter.get('/', getAllUsers);
 
 userRouter.post('/',addUser);
+
+userRouter.get('/locations', getLocations);
 
 userRouter.get('/:id', getUser);
 
