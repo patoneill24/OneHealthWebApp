@@ -4,6 +4,7 @@ import { Bar } from 'react-chartjs-2';
 import { CategoryScale } from 'chart.js';
 import Chart from 'chart.js/auto'; 
 import Switch from '@mui/material/Switch';
+import toTitleCase from "../assets/titleCase";
 
 Chart.register(CategoryScale);
 
@@ -25,7 +26,6 @@ interface locationProp{
 }
 export default function AdminRewards() {
     const [rewards, setRewards] = useState<RewardsProps[]>([]);
-    const [createMenu, setCreateMenu] = useState<boolean>(false);
     const inputRefName = useRef() as React.MutableRefObject<HTMLInputElement>;
     const inputRefPoints = useRef() as React.MutableRefObject<HTMLInputElement>;
     const [popularPrizes, setPopularPrizes] = useState<prizePopularity[]>([]);
@@ -41,6 +41,26 @@ export default function AdminRewards() {
           console.log(response.data);
         })
         .catch((error) => {
+          console.log(error);
+        });
+    }
+
+    function checkDuplicate(name: string,points: number) {
+        if(name === '' || points === 0){
+            alert('Please fill out all fields');
+            return;
+        }
+        axios.get(`http://localhost:3000/rewards/name/${name}`)
+        .then((response) => {
+          console.log(response.data.length);
+          if(response.data.length > 0){
+            alert('Prize Already Exists!');
+          } else {
+            addReward(name, points);
+          }
+        })
+        .catch((error) => {
+          alert(error);
           console.log(error);
         });
     }
@@ -131,14 +151,16 @@ export default function AdminRewards() {
 
     function CreateReward(){
         return(
+            <>
             <div className="create-reward">
-                <h3>Create Reward</h3>
-                <form action="">
+            <h3>Create Reward</h3>
+                <div className="create-reward-form">
                     <input id = "nameText" type="text" placeholder="Reward Name" ref={inputRefName}></input>
                     <input type="Number" placeholder="Points" ref={inputRefPoints}></input>
-                    <button onClick={() => addReward(inputRefName.current.value,Number(inputRefPoints.current.value))}>Create</button>
-                </form>
+                    <button onClick={() => checkDuplicate((inputRefName.current.value).toLowerCase(),Number(inputRefPoints.current.value))}>Create</button>
+                </div>
             </div>
+            </>
         )
     }
 
@@ -222,7 +244,7 @@ export default function AdminRewards() {
             {rewards.map((reward) => {
                 return (
                     <div key= {reward.id} className="rewards-item-admin">
-                        <h3>{reward.name}</h3>
+                        <h3>{toTitleCase(reward.name)}</h3>
                         <div className="status-container">
                         <p>Status:</p>
                         <Switch checked={reward.status === 'active' ? true : false} onChange={() => updateReward(reward.id,reward.name,reward.points,changeStatus(reward.status))}/>
@@ -236,8 +258,7 @@ export default function AdminRewards() {
                 )
             })}
         </div>
-        <button className="rewards-button" onClick={() => setCreateMenu(true)}>Add Reward</button>
-        {createMenu ? <CreateReward /> : <></>}
+         <CreateReward />
         <h1>Most Popular Prizes</h1>
         <button onClick={() => getPopularPrizes()}>Get Overall Popular Prizes</button>
         {showPopularPrizes ? <PopularPrizes /> : <></>}

@@ -4,6 +4,7 @@ import { useState , useEffect} from 'react';
 import { Bar } from 'react-chartjs-2';
 import { CategoryScale } from 'chart.js';
 import Chart from 'chart.js/auto'; 
+import toTitleCase from '../assets/titleCase';
 
 Chart.register(CategoryScale);
 
@@ -156,9 +157,11 @@ export default function Rewards(){
             <div className='rewards-container'>
             {rewards.map((reward) => (
                 <div key={reward.id} className='rewards-item'>
-                    <h1>{reward.name}</h1>
+                    <h1>{toTitleCase(reward.name)}</h1>
+                  <div className='reward-points'>
                     <h3>Points Needed to Redeem: {reward.points}</h3>
                     <button onClick={() => getReward(reward.id,reward.points)}>Redeem</button>
+                  </div>
                 </div>
             ))}
             </div>
@@ -181,7 +184,7 @@ export default function Rewards(){
             <div className='rewards-history-container'>
             {rewardsWon.map((reward) => (
                 <div className='rewards-history-item' key={reward.name}>
-                    <h1>{reward.name}</h1>
+                    <h1>{toTitleCase(reward.name)}</h1>
                     <h3>Points Redeemed: {reward.price_at_purchase}</h3>
                     <h3>Redeemed on: {reward.redeem_date}</h3>
                 </div>
@@ -198,7 +201,7 @@ export default function Rewards(){
             <div className='rewards-container'>
             {rewardsSummary.map((reward) => (
                 <div className= 'rewards-item' key={reward.reward_id}>
-                    <h1>{reward.name}</h1>
+                    <h1>{toTitleCase(reward.name)}</h1>
                     <h3>Redeemed: {reward.redeemed_count}</h3>
                 </div>
             ))}
@@ -256,7 +259,7 @@ export default function Rewards(){
     } 
     return (
         <div>
-            <h1>Welcome to { sharedValue.name }'s Rewards Page! </h1>
+            <h1>Welcome to { toTitleCase(sharedValue.name) }'s Rewards Page! </h1>
             <h2>Points Avaliable: {sharedValue.points}</h2>
             <h3>Location: {sharedValue.location}</h3>
             <button onClick={() => SignOut()}>Sign Out</button>

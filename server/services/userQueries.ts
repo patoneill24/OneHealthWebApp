@@ -5,6 +5,11 @@ export const selectAllUsers = () => {
   return allUsers;
 };
 
+export const CheckDuplicate = (name:string, location:string) => {
+  const user = pool.query("SELECT * FROM users WHERE LOWER(name) = $1 AND LOWER(location) = $2", [name, location]);
+  return user;
+}
+
 export const selectUser = (id: number) => {
   const user = pool.query("SELECT * FROM users WHERE id = $1", [id]);
   return user;

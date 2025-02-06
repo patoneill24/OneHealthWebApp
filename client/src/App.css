@@ -1,6 +1,7 @@
 #root {
   max-width:none;
   margin: 0 auto;
+  margin-bottom: 10em;
   text-align: center;
 }
 
@@ -39,8 +40,14 @@
   border: gray solid 1px;
   border-radius: 10px;
   justify-self: center;
+  font-size: large;
   button {
     margin: 1em;
+  }
+  label {
+    margin: 0.5em;
+    font-size: large;
+    color: white;
   }
 }
 
@@ -55,12 +62,25 @@
   background-color: rgb(205, 204, 204);
   border-radius: 10px;
   padding: 1em;
-  width: 30%;
+  margin: 1em;
+  width: 25%;
+  height: 17em;
+  font-size:large;
+}
+
+.rewards-item h1{
+  max-height: 1em;
+  overflow: scroll;
+}
+
+.reward-points{
+  margin-top: 5em;
 }
 
 .rewards-container{
   display: flex;
   justify-content: space-around;
+  flex-wrap: wrap;
 }
 
 
@@ -112,6 +132,10 @@
     color: rgb(0, 0, 0);
     background-color: rgb(160, 160, 160);
   }
+  .create-reward{
+    background-color: rgb(93, 93, 93);
+    color: white;
+  }
 }
 
 .rewards_history_buttons{
@@ -139,6 +163,7 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .rewards-container-admin button{
@@ -151,8 +176,10 @@
   background-color: rgb(205, 204, 204);
   border-radius: 10px;
   padding: 1em;
-  width: 30em;
+  width: 15em;
   margin: 1em;
+  height: 12em;
+  font-size: large;
 }
 
 .rewards-history-container{
@@ -200,3 +227,25 @@
   flex-wrap: wrap;
 }
 
+
+.create-reward{
+  width: 30%;
+  justify-content: center;
+  align-items: center;
+  margin-left: 35%;
+  border: black solid 5px;
+  border-radius: 10px;
+  padding: 1em;
+}
+
+.create-reward-form{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.create-reward-form input{
+  margin: 0.5em;
+  width: 20em;
+}

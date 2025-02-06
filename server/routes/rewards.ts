@@ -4,7 +4,7 @@ import cors from 'cors';
 
 import 'dotenv/config';
 
-import {getRewards, getActiveRewards,addReward, getReward,updateReward} from '../controllers/rewardsController.js';
+import {getRewards, getActiveRewards,addReward, getReward,updateReward, getRewardByName} from '../controllers/rewardsController.js';
 
 const rewardsRouter = express.Router();
 
@@ -14,9 +14,11 @@ rewardsRouter.use(express.json());
 
 rewardsRouter.get('/',getRewards);
 
+rewardsRouter.post('/', addReward);
+
 rewardsRouter.get('/active', getActiveRewards);
 
-rewardsRouter.post('/', addReward);
+rewardsRouter.get('/name/:name', getRewardByName);
 
 rewardsRouter.get('/:id', getReward);
 

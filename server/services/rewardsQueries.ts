@@ -5,6 +5,11 @@ export const selectAllRewards = () => {
     return rewards;
 }
 
+export const CheckDuplicateReward = (name:string) => {
+    const reward = pool.query('SELECT * FROM rewards WHERE LOWER(name) = $1', [name]);
+    return reward;
+}
+
 export const selectAllActiveRewards = () => {
     const rewards = pool.query('SELECT * FROM rewards WHERE status=$1 ORDER BY id', ['active']);
     return rewards;

@@ -1,11 +1,27 @@
 import { useState } from 'react';
 import axios from 'axios';
 
+
 export default function Register(){
     const [name, setName] = useState('');
     const [location, setLocation] = useState('');
     const [points, setPoints] = useState(0);
     const [response, setResponse] = useState('');
+
+    function checkDuplicate(userName: string, userLocation: string) {
+        axios.get(`http://localhost:3000/users/${userName}/${userLocation}`)
+        .then((response) => {
+            console.log(response.data);
+            if(response.data.length > 0){
+                setResponse('User already exists!');
+            } else {
+                submitForm(userName, userLocation, points);
+            }
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    }
 
     function submitForm(userName: string, userLocation: string, points: number) {
         if(userName === '' || userLocation === ''){
@@ -53,7 +69,7 @@ export default function Register(){
           onChange={(e) => setPoints(Number(e.target.value))}
           ></input>
           <button
-          onClick={() => submitForm(name, location, points)}
+          onClick={() => checkDuplicate(name.toLowerCase(), location.toLowerCase())}
           >Submit New User</button>
           <p>{response}</p>
         </div>

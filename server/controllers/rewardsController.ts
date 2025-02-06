@@ -1,11 +1,21 @@
 import pool from '../model/db.js';
 
-import { selectAllRewards, selectAllActiveRewards,selectRewardById, insertReward, changeReward } from '../services/rewardsQueries.js';
+import { selectAllRewards, selectAllActiveRewards,selectRewardById, insertReward, changeReward, CheckDuplicateReward } from '../services/rewardsQueries.js';
 
 export const getRewards =  async(req:any, res:any) => {
     try{
         const allRewards = (await selectAllRewards())?.rows;
         res.status(200).send(allRewards);
+    } catch (err: any) {
+        console.error(err.message);
+    }
+}
+
+export const getRewardByName = async(req:any, res:any) => {
+    const { name } = req.params;
+    try{
+        const reward = (await CheckDuplicateReward(name))!.rows;
+        res.status(200).send(reward);
     } catch (err: any) {
         console.error(err.message);
     }

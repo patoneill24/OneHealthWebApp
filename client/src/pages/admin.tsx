@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef} from 'react';
 import axios from 'axios';
 import { useAppContext } from '../contexts/userContexts';
+import toTitleCase from "../assets/titleCase";
 
 
 interface User {
@@ -139,9 +140,9 @@ export default function Admin(){
         <div className='userButtons'>{
                 users.map(user => 
                   <div key={user.id}>
-                    <button onClick={() => viewUser(user.id)}>Go to {user.name}'s Account</button>
-                    <button onClick={() => deleteUser(user.id)}>Delete {user.name}</button>
-                    <button onClick={() => updateUser(user.id,user.name,user.location,user.points)}>Update {user.name}</button>
+                    <button onClick={() => viewUser(user.id)}>Go to {toTitleCase(user.name)}'s Account</button>
+                    <button onClick={() => deleteUser(user.id)}>Delete {toTitleCase(user.name)}'s Account</button>
+                    <button onClick={() => updateUser(user.id,user.name,user.location,user.points)}>Update {toTitleCase(user.name)}'s Account</button>
                   </div>
                 )
         }</div>

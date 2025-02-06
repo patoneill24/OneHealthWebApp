@@ -69,6 +69,11 @@ GET http://localhost:3000/users/rewards/popular
 
 ###
 
-GET http://localhost:3000/users
+GET http://localhost:3000/users/charles/boston
 
 ###
+GET http://localhost:3000/rewards
+
+###
+
+GET http://localhost:3000/rewards/name/target%20gift%20card
