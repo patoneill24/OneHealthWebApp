@@ -4,7 +4,7 @@ import { selectAllRewards, selectAllActiveRewards,selectRewardById, insertReward
 
 export const getRewards =  async(req:any, res:any) => {
     try{
-        const allRewards = (await selectAllRewards())?.rows;
+        const allRewards = (await selectAllRewards())!.rows;
         res.status(200).send(allRewards);
     } catch (err: any) {
         console.error(err.message);
@@ -23,7 +23,7 @@ export const getRewardByName = async(req:any, res:any) => {
 
 export const getActiveRewards = async(req:any, res:any) => {
     try{
-        const allActiveRewards = (await selectAllActiveRewards())?.rows;
+        const allActiveRewards = (await selectAllActiveRewards())!.rows;
         res.status(200).send(allActiveRewards);
     } catch (err: any) {
         console.error(err.message);
@@ -45,7 +45,7 @@ export const addReward = async(req:any, res:any) => {
 export const getReward = async(req:any, res:any) => {
     const { id } = req.params;
     try{
-        const reward = (await selectRewardById(id))?.rows; 
+        const reward = (await selectRewardById(id))!.rows; 
         res.status(200).send(reward);
     } catch (err: any) {
         console.error(err.message);

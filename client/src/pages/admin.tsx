@@ -42,12 +42,18 @@ export default function Admin(){
         });
     }
 
+    function refreshUsers() {
+      viewAllUsers();
+      if(sharedValue.name == ''){
+        setLoggedInStatus('Not logged in');
+      }      
+    }
     function deleteUser(id: number) {
         axios.delete(`http://localhost:3000/users/${id}`)
         .then((response) => {
           console.log(response);
           setUpdateResponse('User deleted successfully!');
-          viewAllUsers();
+          setSharedValue({id:0, name: "", location: "", points: 0});
         })
         .catch((error) => {
           console.log(error);
@@ -146,6 +152,7 @@ export default function Admin(){
                   </div>
                 )
         }</div>
+        <button onClick={() => refreshUsers()}>Refresh Users</button>
         {menu && <UpdateMenu />}
         {updateResponse}
     </>   

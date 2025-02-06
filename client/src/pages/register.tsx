@@ -28,6 +28,10 @@ export default function Register(){
             setResponse('Error: Please fill out all fields');
             return;
         }
+        if(points < 0){
+            setResponse('Error: Points cannot be negative');
+            return;
+        }
         axios.post('http://localhost:3000/users', {
             name: userName,
             location: userLocation,

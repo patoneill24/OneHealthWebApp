@@ -168,8 +168,12 @@ export default function AdminRewards() {
         return (points + 5);
     }
 
-    function subtractPoints(points:number){
-        return (points - 5);
+    function subtractPoints(points: number): number {
+        if (points === 5) {
+            alert('Rewards cannot be less than 5 points');
+            return points;
+        }
+        return points - 5;
     }
 
 
@@ -241,7 +245,7 @@ export default function AdminRewards() {
         <>
         <h1>Admin Rewards</h1>
         <div className="rewards-container-admin">
-            {rewards.map((reward) => {
+            {rewards.map((reward: RewardsProps) => {
                 return (
                     <div key= {reward.id} className="rewards-item-admin">
                         <h3>{toTitleCase(reward.name)}</h3>

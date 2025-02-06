@@ -4,13 +4,14 @@ import Redeem from './pages/redeem';
 import Home from './pages/home';
 import { BrowserRouter } from 'react-router';
 import { AppProvider } from './contexts/userContexts';
-import Navbar from './assets/navbar';
+import Navbar from './components/navbar';
 import Login from './pages/login';
 import Register from './pages/register';
 import Learn from './pages/learn';
 import Medication from './pages/medications';
 import Admin from './pages/admin';
 import AdminRewards from './pages/admin-rewards';
+import Footer from './components/footer';
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
           <Route path='/admin' element={<Admin /> } />
           <Route path='/adminrewards' element={<AdminRewards /> } />
         </Routes>
+        <Footer />
         </BrowserRouter>
     </AppProvider>
     </>

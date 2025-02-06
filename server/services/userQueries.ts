@@ -35,6 +35,7 @@ export const changeUser = (
 };
 
 export const removeUser = (id: number) => {
+  pool.query("DELETE FROM redeemed_prizes WHERE user_id = $1", [id]);
   pool.query("DELETE FROM users WHERE id = $1", [id]);
 };
 

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import Logo from './hs-emp-logo-data.png';
+import Logo from '../assets/hs-emp-logo-data.png';
 export default function Navbar(){
 
     function activeLine(e: any){
