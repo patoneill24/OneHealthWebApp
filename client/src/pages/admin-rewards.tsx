@@ -156,7 +156,7 @@ export default function AdminRewards() {
             <h3>Create Reward</h3>
                 <div className="create-reward-form">
                     <input id = "nameText" type="text" placeholder="Reward Name" ref={inputRefName}></input>
-                    <input type="Number" placeholder="Points" ref={inputRefPoints}></input>
+                    <input type="Number" placeholder="Points" step={5} ref={inputRefPoints}></input>
                     <button onClick={() => checkDuplicate((inputRefName.current.value).toLowerCase(),Number(inputRefPoints.current.value))}>Create</button>
                 </div>
             </div>
@@ -193,7 +193,7 @@ export default function AdminRewards() {
             {popularPrizes.map((prize,index) => {
                 return (
                     <div className = "rewards-item-admin" key={prize.reward_id}>
-                        <h1> {index + 1}. {prize.name}</h1>
+                        <h2> {index + 1}. {toTitleCase(prize.name)}</h2>
                         <h3>Redeem Count: {prize.redeem_count}</h3>
                     </div>
                 )
@@ -210,7 +210,7 @@ export default function AdminRewards() {
             <option value="">All Locations</option>
             {locations.map((location) => {
                 return(
-                    <option value={location.location}>{location.location}</option>
+                    <option value={location.location}>{toTitleCase(location.location)}</option>
                 )
             })}
             </select>
@@ -228,7 +228,7 @@ export default function AdminRewards() {
         return(
             <div className="bar-graph">
             <Bar data={{
-                labels: popularPrizes.map((prize) => prize.name),
+                labels: popularPrizes.map((prize) => toTitleCase(prize.name)),
                 datasets: [{
                     label: "Redeem Count",
                     data: popularPrizes.map((prize) => prize.redeem_count),

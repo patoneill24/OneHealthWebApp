@@ -21,7 +21,7 @@ export default function Admin(){
     const [menu, setMenu] = useState(false);
     const [updateResponse, setUpdateResponse] = useState('');
     const [updatedPoints, setUpdatedPoints] = useState(0);
-    const [loggedInStatus, setLoggedInStatus] = useState(`Logged in as: ${sharedValue.name}`);
+    const [loggedInStatus, setLoggedInStatus] = useState(`Logged in as: ${toTitleCase(sharedValue.name)}`);
 
 
     useEffect(() => {
@@ -74,7 +74,7 @@ export default function Admin(){
         .then((response) => {
           console.log(response);
           setSharedValue(response.data[0]);
-          setLoggedInStatus('Logged in as: ' + response.data[0].name);
+          setLoggedInStatus('Logged in as: ' + toTitleCase(response.data[0].name));
         })
         .catch((error) => {
           console.log(error);

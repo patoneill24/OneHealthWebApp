@@ -1,4 +1,5 @@
 import { useAppContext } from "../contexts/userContexts";
+import toTitleCase from "../assets/titleCase";
 
 export default function Medications() {
   const { sharedValue } = useAppContext();
@@ -18,8 +19,8 @@ export default function Medications() {
   return (
     <div>
       <h1>Medications</h1>
-      <h2>Current User: {sharedValue.name}</h2>
-      <h2>Location: {sharedValue.location}</h2>
+      <h2>Current User: {toTitleCase(sharedValue.name)}</h2>
+      <h2>Location: {toTitleCase(sharedValue.location)}</h2>
       <h2>Points: {sharedValue.points}</h2>
       <button onClick={() => SignOut()}>Sign Out</button>
     </div>

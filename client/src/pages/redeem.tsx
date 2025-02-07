@@ -196,8 +196,10 @@ export default function Rewards(){
 
     function RewardsSummary(){
       return(
-        <>
+        <div className='rewards-summary'>
+        <div className='bar-graph'>
             {showGraph ? Graph(prizeLength) : null}
+        </div>
             <div className='rewards-container'>
             {rewardsSummary.map((reward) => (
                 <div className= 'rewards-item' key={reward.reward_id}>
@@ -206,7 +208,7 @@ export default function Rewards(){
                 </div>
             ))}
             </div>
-        </>
+        </div>
       )
     }
 

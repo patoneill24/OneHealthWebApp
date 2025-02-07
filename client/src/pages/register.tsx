@@ -32,6 +32,10 @@ export default function Register(){
             setResponse('Error: Points cannot be negative');
             return;
         }
+        if(userName.match(/^[a-zA-Z]+$/) === null || userLocation.match(/^[a-zA-Z]+$/) === null){
+            setResponse('Error: Name must only contain letters');
+            return;
+        }
         axios.post('http://localhost:3000/users', {
             name: userName,
             location: userLocation,
@@ -53,6 +57,7 @@ export default function Register(){
           <label>Enter Name: </label>
           <input 
           type='text' 
+          pattern="[a-zA-Z]*"
           placeholder='Name' 
           value={name}
           onChange={(e) => setName(e.target.value)}
@@ -60,6 +65,7 @@ export default function Register(){
           <label>Enter Location: </label>
           <input type='text' 
           placeholder='Location' 
+          pattern="[a-zA-Z]*"
           value={location}
           onChange={(e) => setLocation(e.target.value)}
           >

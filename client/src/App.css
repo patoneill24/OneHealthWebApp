@@ -55,6 +55,8 @@
   margin: 1em;
   button {
     margin: 0.5em;
+    width: 17.5em;
+    height: 5em;
   }
 }
 
@@ -69,13 +71,10 @@
 }
 
 .rewards-item h1{
-  max-height: 1em;
+  height: 2.25em;
   overflow: scroll;
 }
 
-.reward-points{
-  margin-top: 5em;
-}
 
 .rewards-container{
   display: flex;
@@ -135,6 +134,14 @@
   .create-reward{
     background-color: rgb(93, 93, 93);
     color: white;
+  }
+  .rewards-history-item{
+    color: black;
+    background-color: rgb(160, 160, 160);
+  }
+  .rewards-item-admin{
+    color: black;
+    background-color: rgb(160, 160, 160);
   }
 }
 
@@ -213,11 +220,26 @@
   align-items: center;
 }
 
+.rewards-list-container-admin button{
+  margin: 1em;
+  width: 13em;
+  font-size: large;
+}
+
+
 .bar-graph{
   width: 70%;
   align-items: center;
   justify-content: center;
   display: flex;
+  margin:auto;
+}
+
+.rewards-summary{
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  text-align: center;
 }
 
 .status-container,.points-container{
@@ -230,9 +252,9 @@
 
 .create-reward{
   width: 30%;
+  margin-left: 33.5%;
   justify-content: center;
   align-items: center;
-  margin-left: 35%;
   border: black solid 5px;
   border-radius: 10px;
   padding: 1em;
