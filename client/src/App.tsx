@@ -1,33 +1,38 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import './App.css';
+import { Routes,Route } from 'react-router';
+import Redeem from './pages/redeem';
+import Home from './pages/home';
+import { BrowserRouter } from 'react-router';
+import { AppProvider } from './contexts/userContexts';
+import Navbar from './components/navbar';
+import Login from './pages/login';
+import Register from './pages/register';
+import Learn from './pages/learn';
+import Medication from './pages/medications';
+import Admin from './pages/admin';
+import AdminRewards from './pages/admin-rewards';
+import Footer from './components/footer';
+
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+    <AppProvider>
+        <BrowserRouter>
+        <Navbar />
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/rewards' element={<Redeem />} />
+          <Route path='/learn' element= {<Learn />} />
+          <Route path ='/medication' element={<Medication />} />
+          <Route path ='/login' element={<Login />} />
+          <Route path ='/register' element={<Register/>} />
+          <Route path='/admin' element={<Admin /> } />
+          <Route path='/adminrewards' element={<AdminRewards /> } />
+        </Routes>
+        <Footer />
+        </BrowserRouter>
+    </AppProvider>
     </>
   )
 }

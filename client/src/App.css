@@ -1,15 +1,12 @@
 #root {
-  max-width: 1280px;
+  max-width:none;
   margin: 0 auto;
-  padding: 2rem;
+  margin-bottom: 10em;
   text-align: center;
 }
 
 .logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+  height: 3em;
 }
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
@@ -33,10 +30,263 @@
   }
 }
 
+
 .card {
+  margin-top: 1em;
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  border: gray solid 1px;
+  border-radius: 10px;
+  justify-self: center;
+  font-size: large;
+  button {
+    margin: 1em;
+  }
+  label {
+    margin: 0.5em;
+    font-size: large;
+    color: white;
+  }
+}
+
+.userButtons{
+  margin: 1em;
+  button {
+    margin: 0.5em;
+    width: 17.5em;
+    height: 5em;
+  }
+}
+
+.rewards-item{
+  background-color: rgb(205, 204, 204);
+  border-radius: 10px;
+  padding: 1em;
+  margin: 1em;
+  width: 25%;
+  height: 17em;
+  font-size:large;
+}
+
+.rewards-item h1{
+  height: 2.25em;
+  overflow: scroll;
+}
+
+
+.rewards-container{
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+
+
+.nav-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  background-color: rgb(93, 93, 93);
   padding: 2em;
 }
 
-.read-the-docs {
-  color: #888;
+
+.nav-container a{
+  font-size: x-large;
+  margin: 1em;
+  width: 6em;
+  text-align: center;
+  font-weight: normal;
+  text-decoration: none;
+  box-shadow: inset 0 0 0 0 #54b3d6;
+  color: #54b3d6;
+  padding: 0rem .25rem;
+  margin: 0 -.25rem;
+  transition: color .3s ease-in-out, box-shadow .3s ease-in-out;
+  position: relative;
+}
+
+.nav-container span{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+
+.active{
+  text-decoration: underline;
+}
+
+.nav-container a:hover{
+  box-shadow: inset 200px 0 0 0 #54b3d6;;
+  color: black;
+}
+
+@media (prefers-color-scheme: dark) {
+  .rewards-item{
+    color: rgb(0, 0, 0);
+    background-color: rgb(160, 160, 160);
+  }
+  .create-reward{
+    background-color: rgb(93, 93, 93);
+    color: white;
+  }
+  .rewards-history-item{
+    color: black;
+    background-color: rgb(160, 160, 160);
+  }
+  .rewards-item-admin{
+    color: black;
+    background-color: rgb(160, 160, 160);
+  }
+}
+
+.rewards_history_buttons{
+  display: flex;
+  justify-content: center;
+  button {
+    margin: 1em;
+  }
+}
+
+@media (max-width: 425px) {
+  .nav-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .nav-container .logo {
+    align-self: flex-start;
+  }
+}
+
+/* admin-rewards page*/
+
+.rewards-container-admin{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.rewards-container-admin button{
+  /* margin: 0.2em; */
+  margin: 0.2em;
+}
+
+
+.rewards-item-admin{
+  background-color: rgb(205, 204, 204);
+  border-radius: 10px;
+  padding: 1em;
+  width: 15em;
+  margin: 1em;
+  height: 12em;
+  font-size: large;
+}
+
+.rewards-history-container{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.rewards-history-item{
+  background-color: rgb(205, 204, 204);
+  border-radius: 10px;
+  padding: 1em;
+  margin: 1em;
+  width: 20%;
+  height: 20em;
+}
+
+.popular-prizes-admin{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  font-size:smaller;
+  flex-wrap: wrap;
+}
+
+.rewards-list-container-admin{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.rewards-list-container-admin button{
+  margin: 1em;
+  width: 13em;
+  font-size: large;
+}
+
+
+.bar-graph{
+  width: 70%;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  margin:auto;
+}
+
+.rewards-summary{
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  text-align: center;
+}
+
+.status-container,.points-container{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+
+.create-reward{
+  width: 30%;
+  margin-left: 33.5%;
+  justify-content: center;
+  align-items: center;
+  border: black solid 5px;
+  border-radius: 10px;
+  padding: 1em;
+}
+
+.create-reward-form{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.create-reward-form input{
+  margin: 0.5em;
+  width: 20em;
+}
+
+
+/* Footer */
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #282c34;
+  color: white;
+  text-align: center;
+  padding: 1em;
+  display: flex;
+  flex-direction: row;
+  img{
+    margin-right: 1em;
+  }
 }
