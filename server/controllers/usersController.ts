@@ -1,5 +1,5 @@
 
-import {selectAllUsers, selectUser, createUser, changeUser, removeUser, selectLocations, CheckDuplicate} from '../services/userQueries.js';
+import {selectAllUsers, selectUser, createUser, changeUser, removeUser, selectLocations, CheckDuplicate, selectAllNotifications} from '../services/userQueries.js';
 export const getAllUsers = async(req:any, res: any) => {
     try{
         const allUsers = (await selectAllUsers())!.rows;
@@ -70,6 +70,15 @@ export const getLocations = async(req:any, res:any) => {
     try{
         const locations = (await selectLocations())?.rows;
         res.status(200).send(locations);
+    } catch (err: any) {
+        console.error(err.message);
+    }
+}
+
+export const getNotifications = async(req:any, res:any) => {
+    try{
+        const notifications = (await selectAllNotifications())?.rows;
+        res.status(200).send(notifications);
     } catch (err: any) {
         console.error(err.message);
     }

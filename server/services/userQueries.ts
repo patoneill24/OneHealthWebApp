@@ -44,3 +44,8 @@ export const selectLocations = () => {
   return locations;
 }
 
+export const selectAllNotifications = () => {
+  const notifications = pool.query("SELECT * FROM notifications");
+  return notifications;
+}
+
