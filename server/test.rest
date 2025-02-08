@@ -19,7 +19,7 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:3000/users
+GET http://localhost:3000/users/2
 ###
 GET http://localhost:3000/users/rewards/3
 ###
@@ -80,4 +80,4 @@ GET http://localhost:3000/rewards/name/target%20gift%20card
 
 ###
 
-GET http://localhost:3000/users/notifications
+GET http://localhost:3000/users/2

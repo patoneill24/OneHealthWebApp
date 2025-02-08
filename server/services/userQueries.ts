@@ -49,3 +49,8 @@ export const selectAllNotifications = () => {
   return notifications;
 }
 
+export const selectUserNotifications = (id: number) => {
+  const notifications = pool.query("SELECT * FROM notifications WHERE notification_id = $1", [id]);
+  return notifications;
+}
+
