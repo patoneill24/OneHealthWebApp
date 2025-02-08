@@ -1,17 +1,26 @@
 // import { ClassNames } from '@emotion/react';
 import axios from 'axios';
 import { useState,useEffect } from 'react';
+import { useAppContext } from '../contexts/userContexts';
 
 interface SelectedNotification {
     key: string | null;
     value: string | null;
+    date: string | null;
 }
 
-interface NotificationProps {
+interface AllNotificationProps {
     notification_id: string;
     notification_title: string;
     notification_text: string;
     created_at: string;
+}
+
+interface UserNotificationProps {
+    notification_id: number;
+    notification_title: string;
+    notification_text: string;
+    recieved_at: string;
 }
 
 export default function Dashboard() {
@@ -22,13 +31,19 @@ export default function Dashboard() {
     //     "Password has been reset": "You password was reset successfully on [date]. If this was NOT you, please reset your password immediately, or contact [email/number] right away! If this WAS you that changed your password, you may ignore this message.",
     //     "Welcome to OneHealth!": "We want to thank you for putting your health first and signing up for OneHealth! We can't wait for you to be able to start earning rewards and seeing the benefits of taking care of yourself; you deserve it!",
     // };
+    const { sharedValue } = useAppContext();
+    const [notifications, setAllNotifications] = useState<AllNotificationProps[]>([]);
+    const [userNotification, setUserNotifications] = useState<UserNotificationProps[]>([]);
+    // const allNotifications = Object.entries(notifications);
+
+    const [selectedNotification, setSelectedNotification] = useState<SelectedNotification>({key:null, value:null,date:null});
+    const [showAll, setShowAll] = useState(false);
 
     function getNotifications(){
         axios.get('http://localhost:3000/users/notifications')
         .then((response) => {
-            setNotifications(response.data);
+            setAllNotifications(response.data);
             console.log(response.data);
-            setNotificationPreview(response.data.slice(0, 3));
         })
         .then((data) => {
             console.log(data);
@@ -38,32 +53,50 @@ export default function Dashboard() {
         });
     }
 
-    const [notifications, setNotifications] = useState<NotificationProps[]>([]);
-    const [notificationPreview, setNotificationPreview] = useState<NotificationProps[]>([]);
-    // const allNotifications = Object.entries(notifications);
+    function addNotification(){
+        axios.post('http://localhost:3000/users/notifications', {
+          user_id: sharedValue.id,
+          notification_id: Math.floor(Math.random() * 6)+1,
+        })
+        .then((response) => {
+          console.log(response);
+          getUserNotifications();
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+    }
 
-    const [selectedNotification, setSelectedNotification] = useState<SelectedNotification>({key:null, value:null});
-    const [showAll, setShowAll] = useState(false);
+    function getUserNotifications(){
+        axios.get(`http://localhost:3000/users/notifications/${sharedValue.id}`).
+        then((response) => {
+            console.log(response.data);
+            setUserNotifications(response.data);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    }
 
-    const handleNotificationClick = (key:string, value:string) => {
-        setSelectedNotification({ key, value });
+    const handleNotificationClick = (key:string, value:string, date:string) => {
+        setSelectedNotification({ key, value, date });
     };
     const handleShowAllClick = () => {
         setShowAll(true);
         getNotifications();
     };
     const handleBackClick = () => {
-        setSelectedNotification({key:null,value:null});
+        setSelectedNotification({key:null,value:null,date:null});
         setShowAll(false);
     };
 
     const handleBackToAllClick = () => {
-        setSelectedNotification({key:null,value:null});
+        setSelectedNotification({key:null,value:null,date:null});
         setShowAll(true);
     }
 
     useEffect(() => {
-        getNotifications();
+        getUserNotifications();
     }, []);
 
     // To show the notification details on the right side of the page instead of in an overlay,
@@ -71,10 +104,11 @@ export default function Dashboard() {
     return(
         <>
             <h1>Welcome to your dashboard!</h1>
+            <button onClick={addNotification}>Add Notification</button>
             <div id = "notification-preview" className = "card">
                 <h2>Notifications:</h2>
-                {notificationPreview.map((notification) => (
-                    <div className = "notification-button" key={notification.notification_id} onClick={() => handleNotificationClick(notification.notification_title, notification.notification_text)}>
+                {userNotification.map((notification) => (
+                    <div className = "notification-button" key={notification.notification_id} onClick={() => handleNotificationClick(notification.notification_title, notification.notification_text, notification.recieved_at)}>
                         {notification.notification_title}
                     </div>
                 ))}
@@ -85,6 +119,7 @@ export default function Dashboard() {
                         <div className="overlay">
                             <div className="card">
                                 <h2>{selectedNotification.key}</h2>
+                                <p>Recieved at: {selectedNotification.date}</p>
                                 <p>{selectedNotification.value}</p>
                                 <button onClick={handleBackClick}>Back</button>
                                 <button onClick={handleBackToAllClick}>Show All Notifications</button>
@@ -94,7 +129,7 @@ export default function Dashboard() {
                         <div className="overlay">
                             <div className="card">
                                 {notifications.map((notification) => (
-                                    <div className = "notification-button" key={notification.notification_id} onClick={() => handleNotificationClick(notification.notification_title, notification.notification_text)}>
+                                    <div className = "notification-button" key={notification.notification_id} onClick={() => handleNotificationClick(notification.notification_title, notification.notification_text, notification.created_at)}>
                                         {notification.notification_title}
                                     </div>
                                 ))}

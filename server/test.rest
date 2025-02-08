@@ -80,4 +80,15 @@ GET http://localhost:3000/rewards/name/target%20gift%20card
 
 ###
 
-GET http://localhost:3000/users/2
+GET http://localhost:3000/users/notifications/3
+
+
+###
+
+POST http://localhost:3000/users/notifications
+Content-Type: application/json
+
+{
+    "user_id": 3,
+    "notification_id": 1
+}

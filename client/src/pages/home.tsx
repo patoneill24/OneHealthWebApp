@@ -9,6 +9,7 @@ export default function Home() {
   function SignOut(){
     setSharedValue({id:0, name: "", location: "", points: 0});
   }
+
   if(sharedValue.name === ""){
     return(
         <div>

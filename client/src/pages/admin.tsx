@@ -81,6 +81,17 @@ export default function Admin(){
         });
       }
 
+    // function RandomizeNotifications(){
+    //   return(
+    //   <>
+    //   {users.map(user =>
+    //     <div key={user.id}>
+    //       <p>({user.id},{Math.floor(Math.random() * 6)+1})</p>
+    //     </div>
+    //   )}
+    //   </>
+    // )
+    // }
       function UpdateMenu() {
         const inputRefName = useRef() as React.MutableRefObject<HTMLInputElement>;
         const inputRefLocation = useRef() as React.MutableRefObject<HTMLInputElement>;

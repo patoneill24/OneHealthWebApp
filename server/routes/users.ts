@@ -4,7 +4,7 @@ import cors from 'cors';
 
 import 'dotenv/config';
 
-import {getAllUsers, getUser, addUser, updateUser, deleteUser, getLocations, getUserByNameAndLocation, getAllNotifications, getUserNotifications} from '../controllers/usersController.js';
+import {getAllUsers, getUser, addUser, updateUser, deleteUser, getLocations, getUserByNameAndLocation, getAllNotifications, getUserNotifications, addNotification} from '../controllers/usersController.js';
 
 const userRouter = express.Router();
 
@@ -17,6 +17,7 @@ userRouter.get('/', getAllUsers);
 userRouter.post('/',addUser);
 userRouter.get('/locations', getLocations);
 userRouter.get('/notifications', getAllNotifications);
+userRouter.post('/notifications', addNotification);
 
 
 // More Specific Paremeterized Routes
