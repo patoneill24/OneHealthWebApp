@@ -17,14 +17,14 @@ export const selectPopularPrizesByUser = (user_id: number) => {
 
 export const selectPopularPrizes = () => {
     const rewards = pool.query("SELECT rp.reward_id,r.name, \
-        COUNT(rp.reward_id) AS redeem_count FROM redeemed_prizes rp \
-        JOIN rewards r ON rp.reward_id = r.id GROUP BY rp.reward_id,r.name ORDER BY redeem_count DESC");
+        COUNT(rp.reward_id) AS redeemed_count FROM redeemed_prizes rp \
+        JOIN rewards r ON rp.reward_id = r.id GROUP BY rp.reward_id,r.name ORDER BY redeemed_count DESC");
     return rewards;
 }
 
 export const selectPopularPrizesByLocation = (location: string) => {
     const rewards = pool.query("SELECT rp.reward_id,r.name, \
-        COUNT(rp.reward_id) AS redeem_count FROM redeemed_prizes rp \
-        JOIN rewards r ON rp.reward_id = r.id JOIN users u ON rp.user_id = u.id WHERE u.location = $1 GROUP BY rp.reward_id,r.name ORDER BY redeem_count DESC", [location]);
+        COUNT(rp.reward_id) AS redeemed_count FROM redeemed_prizes rp \
+        JOIN rewards r ON rp.reward_id = r.id JOIN users u ON rp.user_id = u.id WHERE u.location = $1 GROUP BY rp.reward_id,r.name ORDER BY redeemed_count DESC", [location]);
     return rewards;
 }

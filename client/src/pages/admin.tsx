@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef} from 'react';
 import axios from 'axios';
 import { useAppContext } from '../contexts/userContexts';
-import toTitleCase from "../assets/titleCase";
+import toTitleCase from "../utils/titleCase";
 
 
 interface User {

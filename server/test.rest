@@ -33,7 +33,7 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:3000/rewards
+GET http://localhost:3000/rewards/active
 
 ###
 DELETE http://localhost:3000/rewards/4
@@ -72,7 +72,7 @@ GET http://localhost:3000/users/rewards/popular
 GET http://localhost:3000/users/charles/boston
 
 ###
-GET http://localhost:3000/rewards
+GET http://localhost:3000
 
 ###
 
