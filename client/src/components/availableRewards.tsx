@@ -1,5 +1,8 @@
 import { useRewardContext } from "../contexts/rewardContexts"
 import { useAppContext } from "../contexts/userContexts";
+import { useEffect } from "react";
+import { useRewards } from "../hooks/useRewards";
+import { usePoints } from "../hooks/usePoints";
 
 
 
@@ -11,15 +14,15 @@ import toTitleCase from "../utils/titleCase";
 
 
 export default function RewardsAvilable(){
-    const { sharedValue, setSharedValue } = useAppContext();
+    const { sharedValue } = useAppContext();
     const { rewards } = useRewardContext();
+    const { getPoints } = usePoints();
+    const { getRewards } = useRewards();
+    
     const avaliableRewards = rewards.filter((reward) => reward.status === 'active');
 
     function SubtractPoints(cost:number){
-        if(sharedValue.id === 0){
-            alert('Please login to redeem rewards');
-            return;
-        }
+
         axios.put(`http://localhost:3000/users/${sharedValue.id}`, {
             name: sharedValue.name,
             location: sharedValue.location,
@@ -27,6 +30,7 @@ export default function RewardsAvilable(){
         })
         .then(() => {
           getPoints();
+          console.log('Points Subtracted');
           console.log(sharedValue);
         })
         .catch((error) => {
@@ -34,22 +38,9 @@ export default function RewardsAvilable(){
         });
     }
     
-    function getPoints(){
-        if(sharedValue.id === 0){
-            alert('Please login to redeem rewards');
-            return;
-        }
-        axios.get(`http://localhost:3000/users/${sharedValue.id}`)
-        .then((response) => {
-          setSharedValue(response.data[0]);
-          console.log(response.data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
     
     function getReward(id: number,points: number){
+        console.log(points)
         if(points > sharedValue.points){
             alert('Not enough points to redeem this reward');
             return;
@@ -66,7 +57,6 @@ export default function RewardsAvilable(){
     }
     
        function redeemReward(id: number, cost: number){
-        console.log(`Id = ${sharedValue.id}`);
         axios.post(`http://localhost:3000/users/rewards/${sharedValue.id}`, {
             user_id: sharedValue.id,
             reward_id: id,
@@ -79,6 +69,11 @@ export default function RewardsAvilable(){
           console.log(error);
         });
     }
+
+    useEffect(() => {
+      if(rewards.length === 0){
+        getRewards();
+      }}, [])
 
         return (
             <>

@@ -15,7 +15,7 @@ interface AppContextProps {
 }
 
 // Create the context with default values
-const AppContext = createContext<AppContextProps>({
+export const AppContext = createContext<AppContextProps>({
   sharedValue: {
     id: 0,
     name: "",

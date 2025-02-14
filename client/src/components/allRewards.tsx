@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useRewardContext } from "../contexts/rewardContexts";
 import Switch from '@mui/material/Switch';
+import { useRewards } from "../hooks/useRewards";
 
 import toTitleCase from "../utils/titleCase";
 
@@ -9,7 +10,8 @@ import { useRef,useEffect } from "react";
 export default function AllRewards(){
     const inputRefName = useRef() as React.MutableRefObject<HTMLInputElement>;
     const inputRefPoints = useRef() as React.MutableRefObject<HTMLInputElement>;
-    const { rewards,setRewards } = useRewardContext();
+    const { getRewards } = useRewards();
+    const { rewards } = useRewardContext();
     function addPoints(points:number){
         return (points + 5);
     }
@@ -29,17 +31,6 @@ export default function AllRewards(){
         } else {
             return 'active';
         }
-    }
-    
-    function getRewards() {
-        axios.get(`http://localhost:3000/rewards`)
-        .then((response) => {
-          setRewards(response.data);
-          console.log(response.data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
     }
     
     

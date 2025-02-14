@@ -12,7 +12,6 @@ export default function RewardSummary(){
     const [showRewardsSumary, setShowRewardsSummary] = useState<boolean>(false);
     const [prizeLength, setPrizeLength] = useState<number>(0);
     const [showGraph, setShowGraph] = useState<boolean>(false);
-    // const [loading, setLoading] = useState<boolean>(false);
 
 
     function viewRewardsSumary(){
@@ -50,9 +49,9 @@ export default function RewardSummary(){
                 {showGraph ? Graph(prizeLength, popularPrizes.map((popularPrize) => popularPrize.name), popularPrizes.map((popularPrize) => popularPrize.redeemed_count) ) : null}
             </div>
                 <div className='rewards-container'>
-                {popularPrizes.map((popularPrize) => (
+                {popularPrizes.map((popularPrize,rewardIndex) => (
                     <div className= 'rewards-item' key={popularPrize.reward_id}>
-                        <h1>{toTitleCase(popularPrize.name)}</h1>
+                        <h1>{rewardIndex + 1}. {toTitleCase(popularPrize.name)}</h1>
                         <h3>Redeemed: {popularPrize.redeemed_count}</h3>
                     </div>
                 ))}

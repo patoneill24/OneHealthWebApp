@@ -1,18 +1,11 @@
 import axios from "axios";
 import { useAppContext } from "../contexts/userContexts";
+import { usePoints } from "../hooks/usePoints";
 
 export default function GainPoints() {
-    const {sharedValue, setSharedValue} = useAppContext();
-    function getPoints(){
-        axios.get(`http://localhost:3000/users/${sharedValue.id}`)
-        .then((response) => {
-          setSharedValue(response.data[0]);
-          console.log(response.data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
+    const {sharedValue} = useAppContext();
+    const { getPoints } = usePoints();
+    
     function AddPoints(){
         axios.put(`http://localhost:3000/users/${sharedValue.id}`, {
             name: sharedValue.name,
@@ -27,6 +20,7 @@ export default function GainPoints() {
           console.log(error);
         });
     }
+
     return (
         <div>
             <div className='AddPoints'>

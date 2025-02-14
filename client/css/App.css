@@ -47,7 +47,7 @@
   label {
     margin: 0.5em;
     font-size: large;
-    color: white;
+    color: rgb(0, 0, 0);
   }
 }
 
@@ -267,6 +267,7 @@
 #notification-preview {
   float: left;
   margin: 0 5%;
+  margin-bottom: 10%;
 }
 #notification-preview .notification-button{
   padding: 2% 0;
@@ -314,6 +315,9 @@
     background-color: rgb(41, 41, 41);
     max-height: 80%;
     overflow-y: auto;
+  }
+  .card label{
+    color: white;
   }
 }
 

@@ -8,13 +8,14 @@ import RewardsHistory from '../components/rewardsHistory';
 import RewardsSummary from '../components/rewardSummary';
 
 export default function Rewards(){
-    const { sharedValue } = useAppContext();
+    const { sharedValue} = useAppContext();
 
     if(sharedValue.id === 0){
         return(
             <LoggedOut />
         )
     }
+
 
     return (
         <div>

@@ -13,3 +13,4 @@ node_modules
 .env
 pnpm-lock.yaml
 oneHealthDB.mwb
+oneHealthDB.mwb.bak

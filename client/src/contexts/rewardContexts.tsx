@@ -16,7 +16,7 @@ interface RewardContextProps {
 
 // Create the context with default values
 
-const RewardContext = createContext<RewardContextProps>({
+export const RewardContext = createContext<RewardContextProps>({
     rewards: [],
     setRewards: () => {},
 });

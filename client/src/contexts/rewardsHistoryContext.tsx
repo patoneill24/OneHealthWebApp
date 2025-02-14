@@ -25,4 +25,4 @@ export const RewardsHistoryProvider = ({children}: {children: React.ReactNode}) 
 };
 
 export const useRewardsHistoryContext = () => useContext(RewardsHistoryContext);
-;
+
