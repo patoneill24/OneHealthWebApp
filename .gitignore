@@ -14,3 +14,5 @@ node_modules
 pnpm-lock.yaml
 oneHealthDB.mwb
 oneHealthDB.mwb.bak
+lag_practice.sql
+.DS_Store

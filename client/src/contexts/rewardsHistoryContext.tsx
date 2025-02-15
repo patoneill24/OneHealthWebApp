@@ -1,6 +1,7 @@
 import {createContext, useContext, useState} from 'react';
 
 interface RewardsHistory {
+    id: number;
     name: string;
     price_at_purchase: number;
     redeem_date: string;

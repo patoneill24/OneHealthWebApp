@@ -4,7 +4,7 @@ export const inputReward = (user_id: number, reward_id: number, price_at_pruchas
   };
   
 export const selectRewards = (user_id: number) => {
-    const rewards = pool.query("SELECT rewards.name, redeemed_prizes.price_at_purchase, TO_CHAR(timezone('America/Denver', redeem_date), 'Mon DD, YYYY FMHH12:MIAM') AS redeem_date FROM redeemed_prizes JOIN rewards ON redeemed_prizes.reward_id = rewards.id WHERE redeemed_prizes.user_id = $1", [user_id]);;
+    const rewards = pool.query("SELECT redeemed_prizes.id,rewards.name, redeemed_prizes.price_at_purchase, redeem_date FROM redeemed_prizes JOIN rewards ON redeemed_prizes.reward_id = rewards.id WHERE redeemed_prizes.user_id = $1", [user_id]);;
     return rewards;
   };
 
