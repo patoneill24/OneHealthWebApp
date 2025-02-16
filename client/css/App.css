@@ -176,6 +176,10 @@
   height: 20em;
 }
 
+.rewards-history-item .title-container{
+  height: 8em;
+}
+
 .popular-prizes-admin{
   display: flex;
   justify-content: space-around;

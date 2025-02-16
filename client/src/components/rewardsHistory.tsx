@@ -5,11 +5,19 @@ import axios from "axios";
 import toTitleCase from "../utils/titleCase";
 
 
+// interface timeOptions {
+//     weekday: string;
+//     year: string;
+//     month: string;
+//     day: string;
+// }
+
 
 export default function RewardsHistory() {
     const { sharedValue } = useAppContext();
     const { rewardsWon, setRewardsWon } = useRewardsHistoryContext();
     const [viewRewardsHistory, setViewRewardsHistory] = useState<boolean>(false);
+    const options:any  = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
 
 
     function ViewPastRewards(){
@@ -41,15 +49,30 @@ export default function RewardsHistory() {
         
     }
 
-    function sortByDate(){
+    function sortByDateAsc(){
         const sortedByDate = [...rewardsWon].sort((a,b)=> {
             const dateA = new Date(a.redeem_date).getTime();
             const dateB = new Date(b.redeem_date).getTime();
-            console.log(dateA, dateB);
             if (dateA < dateB) {
                 return -1;
             }
             if (dateA > dateB) {
+                return 1;
+            }
+            return 0;
+        }
+        )
+        setRewardsWon(sortedByDate);
+    }
+
+    function sortByDateDesc(){
+        const sortedByDate = [...rewardsWon].sort((a,b)=> {
+            const dateA = new Date(a.redeem_date).getTime();
+            const dateB = new Date(b.redeem_date).getTime();
+            if (dateA > dateB) {
+                return -1;
+            }
+            if (dateA < dateB) {
                 return 1;
             }
             return 0;
@@ -74,7 +97,13 @@ export default function RewardsHistory() {
             sortByPrice();
         }
         else if(filter === 'redeem_date'){
-            sortByDate();
+            sortByDateAsc();
+        }
+        else if(filter === 'redeem_date_desc'){
+            sortByDateDesc();
+        }
+        else {
+            ViewPastRewards();
         }
     }
 
@@ -97,6 +126,7 @@ export default function RewardsHistory() {
                 <label htmlFor="sort">Sort by:</label>
                 <select id="sort" name="sort" onChange={(e) => {applyFilter(e.target.value)}}>
                     <option value="redeem_date">Redeem Date Asc. </option>
+                    <option value="redeem_date_desc">Redeem Date Desc. </option>
                     <option value="name">Name</option>
                     <option value="price_at_purchase">Price at Purchase</option>
                 </select>
@@ -105,9 +135,11 @@ export default function RewardsHistory() {
             <div className='rewards-history-container'>
             {rewardsWon.map((reward) => (
                 <div className='rewards-history-item' key={reward.id}>
+                    <div className='title-container'>
                     <h1>{toTitleCase(reward.name)}</h1>
-                    <h3>Points Redeemed: {reward.price_at_purchase}</h3>
-                    <h3>Redeemed on: {reward.redeem_date}</h3>
+                    </div>
+                    <h2>Points Redeemed: {reward.price_at_purchase}</h2>
+                    <h2>Redeemed on: {new Date(reward.redeem_date).toLocaleString('en-US', options)}</h2>
                 </div>
             ))}
             </div>

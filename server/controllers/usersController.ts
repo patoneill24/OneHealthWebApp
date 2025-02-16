@@ -1,5 +1,5 @@
 
-import {selectAllUsers, selectUser, createUser, changeUser, removeUser, selectLocations, CheckDuplicate, selectAllNotifications,selectUserNotifications, createNotification} from '../services/userQueries.js';
+import {selectAllUsers, selectUser, createUser, changeUser, removeUser, selectLocations, CheckDuplicate, selectAllNotifications,selectUserNotifications, createNotification, selectUserDrugs} from '../services/userQueries.js';
 export const getAllUsers = async(req:any, res: any) => {
     try{
         const allUsers = (await selectAllUsers())!.rows;
@@ -102,6 +102,16 @@ export const addNotification = async(req:any, res:any) => {
         res.status(200).send({
             message: "successfully added notification",
         });
+    } catch (err: any) {
+        console.error(err.message);
+    }
+}
+
+export const getUserDrugs = async(req:any, res:any) => {
+    const { id } = req.params;
+    try{
+        const drugs = (await selectUserDrugs(id))?.rows;
+        res.status(200).send(drugs);
     } catch (err: any) {
         console.error(err.message);
     }

@@ -92,3 +92,11 @@ Content-Type: application/json
     "user_id": 3,
     "notification_id": 1
 }
+
+###
+
+GET http://localhost:3000/users/notifications/40
+
+###
+
+GET http://localhost:3000/users/drugs/2

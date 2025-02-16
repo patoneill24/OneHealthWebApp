@@ -6,7 +6,7 @@ import { useAppContext } from '../contexts/userContexts';
 interface SelectedNotification {
     key: string | null;
     value: string | null;
-    date: string | null;
+    date: string;
 }
 
 interface AllNotificationProps {
@@ -17,6 +17,7 @@ interface AllNotificationProps {
 }
 
 interface UserNotificationProps {
+    user_notification_id: number;
     notification_id: number;
     notification_title: string;
     notification_text: string;
@@ -36,8 +37,10 @@ export default function Dashboard() {
     const [userNotification, setUserNotifications] = useState<UserNotificationProps[]>([]);
     // const allNotifications = Object.entries(notifications);
 
-    const [selectedNotification, setSelectedNotification] = useState<SelectedNotification>({key:null, value:null,date:null});
+    const [selectedNotification, setSelectedNotification] = useState<SelectedNotification>({key:null, value:null,date:''});
     const [showAll, setShowAll] = useState(false);
+
+    const options:any  = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
 
     function getNotifications(){
         axios.get('http://localhost:3000/users/notifications')
@@ -86,12 +89,12 @@ export default function Dashboard() {
         getNotifications();
     };
     const handleBackClick = () => {
-        setSelectedNotification({key:null,value:null,date:null});
+        setSelectedNotification({key:null,value:null,date:''});
         setShowAll(false);
     };
 
     const handleBackToAllClick = () => {
-        setSelectedNotification({key:null,value:null,date:null});
+        setSelectedNotification({key:null,value:null,date:''});
         setShowAll(true);
     }
 
@@ -107,8 +110,18 @@ export default function Dashboard() {
             <button onClick={addNotification}>Add Notification</button>
             <div id = "notification-preview" className = "card">
                 <h2>Notifications:</h2>
-                {userNotification.map((notification) => (
-                    <div className = "notification-button" key={notification.notification_id} onClick={() => handleNotificationClick(notification.notification_title, notification.notification_text, notification.recieved_at)}>
+                {[...userNotification].sort((a,b)=> {
+            const dateA = new Date(a.recieved_at).getTime();
+            const dateB = new Date(b.recieved_at).getTime();
+            if (dateA > dateB) {
+                return -1;
+            }
+            if (dateA < dateB) {
+                return 1;
+            }
+            return 0;
+        }).map((notification) => (
+                    <div className = "notification-button" key={notification.user_notification_id} onClick={() => handleNotificationClick(notification.notification_title, notification.notification_text, notification.recieved_at)}>
                         {notification.notification_title}
                     </div>
                 ))}
@@ -119,7 +132,7 @@ export default function Dashboard() {
                         <div className="overlay">
                             <div className="card">
                                 <h2>{selectedNotification.key}</h2>
-                                <p>Recieved at: {selectedNotification.date}</p>
+                                <p>Recieved at: {new Date(selectedNotification.date).toLocaleString('en-US', options)}</p>
                                 <p>{selectedNotification.value}</p>
                                 <button onClick={handleBackClick}>Back</button>
                                 <button onClick={handleBackToAllClick}>Show All Notifications</button>

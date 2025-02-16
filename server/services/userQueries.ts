@@ -53,15 +53,30 @@ export const selectUserNotifications = (id: number) => {
   const notifications = pool.query("SELECT n.notification_id,\
   n.notification_title,\
   n.notification_text,\
-  TO_CHAR(un.recieved_at,'Mon DD, YYYY FMHH12:MIAM') as recieved_at\
+  un.recieved_at,\
+  un.user_notification_id \
   FROM notifications n \
   JOIN user_notifications un ON n.notification_id = un.notification_id\
   JOIN users u ON un.user_id = u.id \
-  WHERE u.id = $1;", [id]);
+  WHERE u.id = $1\
+  ORDER BY un.recieved_at DESC", [id]);
   return notifications;
 }
 
 export const createNotification = (user_id: string, notification_id: string) => {
   pool.query("INSERT INTO user_notifications (user_id, notification_id) VALUES($1, $2)", [user_id, notification_id]);
+}
+
+export const selectUserDrugs = (id: number) => {
+  const drugs = pool.query("SELECT d.drug_id,d.name \
+FROM \
+	users u \
+JOIN \
+	user_drugs ud ON u.id = ud.user_id \
+JOIN\
+	drugs d ON ud.drug_id = d.drug_id \
+WHERE \
+	u.id = $1", [id]);
+  return drugs;
 }
 
