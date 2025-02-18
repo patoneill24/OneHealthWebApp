@@ -17,7 +17,7 @@ export default function RewardsHistory() {
     const { sharedValue } = useAppContext();
     const { rewardsWon, setRewardsWon } = useRewardsHistoryContext();
     const [viewRewardsHistory, setViewRewardsHistory] = useState<boolean>(false);
-    const options:any  = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+    const options:any  = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', timeZone:'UTC' };
 
 
     function ViewPastRewards(){

@@ -1,5 +1,5 @@
 
-import {selectAllUsers, selectUser, createUser, changeUser, removeUser, selectLocations, CheckDuplicate, selectAllNotifications,selectUserNotifications, createNotification, selectUserDrugs} from '../services/userQueries.js';
+import {selectAllUsers, selectUser, createUser, changeUser, removeUser, selectLocations, CheckDuplicate, selectAllNotifications,selectUserNotifications, createNotification, selectUserDrugs, userTookDrug,selectUserTookDrugs} from '../services/userQueries.js';
 export const getAllUsers = async(req:any, res: any) => {
     try{
         const allUsers = (await selectAllUsers())!.rows;
@@ -113,6 +113,29 @@ export const getUserDrugs = async(req:any, res:any) => {
         const drugs = (await selectUserDrugs(id))?.rows;
         res.status(200).send(drugs);
     } catch (err: any) {
+        console.error(err.message);
+    }
+}
+
+export const addDrugRecord = async(req:any, res:any) => {
+    const {user_id} = req.params;
+    const {drug_id} = req.body;
+    try{
+        userTookDrug(user_id,drug_id);
+        res.status(200).send({
+            message: "successfully added notification",
+        });        
+    } catch (err: any) {
+        console.error(err.message);
+    }
+}
+
+export const getDrugRecords = async(req:any,res:any) => {
+    const {user_id} = req.params;
+    try{
+        const drug_records = (await selectUserTookDrugs(user_id))?.rows;
+        res.status(200).send(drug_records);
+    }catch(err:any) {
         console.error(err.message);
     }
 }

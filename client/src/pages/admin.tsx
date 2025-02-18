@@ -93,8 +93,8 @@ export default function Admin(){
     // )
     // }
       function UpdateMenu() {
-        const inputRefName = useRef() as React.MutableRefObject<HTMLInputElement>;
-        const inputRefLocation = useRef() as React.MutableRefObject<HTMLInputElement>;
+        const inputRefName = useRef('') as any;
+        const inputRefLocation = useRef('') as any;
   
         function updateUserByID(id: number) {
           axios.put(`http://localhost:3000/users/${id}`, {

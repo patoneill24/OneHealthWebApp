@@ -1,8 +1,8 @@
 import '../css/App.css';
-import { Routes,Route } from 'react-router';
+import { Routes,Route } from 'react-router-dom';
 import Redeem from './pages/redeem';
 import Home from './pages/home';
-import { BrowserRouter } from 'react-router';
+import { BrowserRouter } from 'react-router-dom';
 import { AppProvider } from './contexts/userContexts';
 import { RewardProvider } from './contexts/rewardContexts';
 import { RewardsHistoryProvider } from './contexts/rewardsHistoryContext';

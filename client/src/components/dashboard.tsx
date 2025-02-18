@@ -40,7 +40,7 @@ export default function Dashboard() {
     const [selectedNotification, setSelectedNotification] = useState<SelectedNotification>({key:null, value:null,date:''});
     const [showAll, setShowAll] = useState(false);
 
-    const options:any  = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+    const options:any  = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'};
 
     function getNotifications(){
         axios.get('http://localhost:3000/users/notifications')

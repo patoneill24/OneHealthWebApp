@@ -8,8 +8,8 @@ import toTitleCase from "../utils/titleCase";
 import { useRef,useEffect } from "react";
 
 export default function AllRewards(){
-    const inputRefName = useRef() as React.MutableRefObject<HTMLInputElement>;
-    const inputRefPoints = useRef() as React.MutableRefObject<HTMLInputElement>;
+    const inputRefName = useRef('') as any;
+    const inputRefPoints = useRef(0) as any;
     const { getRewards } = useRewards();
     const { rewards } = useRewardContext();
     function addPoints(points:number){

@@ -80,3 +80,13 @@ WHERE \
   return drugs;
 }
 
+export const userTookDrug = (user_id: number, drug_id:number) => {
+  pool.query("INSERT INTO user_took_drugs (user_id,drug_id,took_drug) VALUES($1,$2,CURRENT_TIMESTAMP)", [user_id,drug_id])
+}
+
+export const selectUserTookDrugs = (user_id:number) => {
+  const drug_records = pool.query("SELECT user_took_drugs_id,name, took_drug from user_took_drugs\
+  JOIN drugs ON user_took_drugs.drug_id = drugs.drug_id\
+  WHERE user_id = $1",[user_id]);
+  return drug_records;
+}
