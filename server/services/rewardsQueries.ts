@@ -21,7 +21,7 @@ export const selectRewardById = (id: number) => {
 }
 
 export const insertReward = (name: string, points: number) => {
-    pool.query('INSERT INTO rewards VALUES (DEFAULT,$1, $2,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)', [name, points]);
+    pool.query("INSERT INTO rewards VALUES (DEFAULT,$1, $2,'active',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)", [name, points]);
 }
 
 export const changeReward = (id: number, name: string, points: number, status:string) => {

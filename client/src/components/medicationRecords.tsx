@@ -53,7 +53,7 @@ interface MedicationRecordProps {
     };
 
   function getRecords(){
-      axios.get(`http://localhost:3000/users/tookdrugs/${sharedValue.id}/table`).then((response)=>{
+      axios.get(`http://localhost:3000/users/drugs/tookdrugs/${sharedValue.id}/table`).then((response)=>{
         console.log(response.data);
           setUpRecords(response.data);
     })
