@@ -7,6 +7,7 @@ import { AppProvider } from './contexts/userContexts';
 import { RewardProvider } from './contexts/rewardContexts';
 import { RewardsHistoryProvider } from './contexts/rewardsHistoryContext';
 import { PrizePopularityProvider } from './contexts/prizePopularityContext';
+import { UserMedicationsProvider } from './contexts/userMedicationsContexts';
 import Navbar from './components/navbar';
 import Login from './pages/login';
 import Register from './pages/register';
@@ -24,6 +25,7 @@ function App() {
       <RewardProvider>
         <RewardsHistoryProvider>
         <PrizePopularityProvider>
+        <UserMedicationsProvider>
         <BrowserRouter>
           <Navbar />
           <Routes>
@@ -38,6 +40,7 @@ function App() {
           </Routes>
           <Footer />
         </BrowserRouter>
+        </UserMedicationsProvider>
         </PrizePopularityProvider>
         </RewardsHistoryProvider>
       </RewardProvider>

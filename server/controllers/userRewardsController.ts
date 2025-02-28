@@ -12,7 +12,7 @@ export const addReward = async(req:any, res:any) => {
     }
 }
 
-export const getRewards = async(req:any, res:any) => {
+export const getUserRewards = async(req:any, res:any) => {
     const { user_id } = req.params;
     try{
         const rewards = (await selectRewards(user_id))?.rows; 

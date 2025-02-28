@@ -33,7 +33,7 @@ export default function Dashboard() {
     //     "Welcome to OneHealth!": "We want to thank you for putting your health first and signing up for OneHealth! We can't wait for you to be able to start earning rewards and seeing the benefits of taking care of yourself; you deserve it!",
     // };
     const { sharedValue } = useAppContext();
-    const [notifications, setAllNotifications] = useState<AllNotificationProps[]>([]);
+    const [notifications] = useState<AllNotificationProps[]>([]);
     const [userNotification, setUserNotifications] = useState<UserNotificationProps[]>([]);
     // const allNotifications = Object.entries(notifications);
 
@@ -42,19 +42,19 @@ export default function Dashboard() {
 
     const options:any  = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'};
 
-    function getNotifications(){
-        axios.get('http://localhost:3000/users/notifications')
-        .then((response) => {
-            setAllNotifications(response.data);
-            console.log(response.data);
-        })
-        .then((data) => {
-            console.log(data);
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
-    }
+    // function getNotifications(){
+    //     axios.get('http://localhost:3000/users/notifications')
+    //     .then((response) => {
+    //         setAllNotifications(response.data);
+    //         console.log(response.data);
+    //     })
+    //     .then((data) => {
+    //         console.log(data);
+    //     })
+    //     .catch((error) => {
+    //         console.error('Error:', error);
+    //     });
+    // }
 
     function addNotification(){
         axios.post('http://localhost:3000/users/notifications', {
@@ -84,19 +84,14 @@ export default function Dashboard() {
     const handleNotificationClick = (key:string, value:string, date:string) => {
         setSelectedNotification({ key, value, date });
     };
-    const handleShowAllClick = () => {
-        setShowAll(true);
-        getNotifications();
-    };
+    // const handleShowAllClick = () => {
+    //     setShowAll(true);
+    //     getNotifications();
+    // };
     const handleBackClick = () => {
         setSelectedNotification({key:null,value:null,date:''});
         setShowAll(false);
     };
-
-    const handleBackToAllClick = () => {
-        setSelectedNotification({key:null,value:null,date:''});
-        setShowAll(true);
-    }
 
     useEffect(() => {
         getUserNotifications();
@@ -106,9 +101,8 @@ export default function Dashboard() {
     // just move the conditionals outside of "notification-preview"
     return(
         <>
-            <h1>Welcome to your dashboard!</h1>
-            <button onClick={addNotification}>Add Notification</button>
             <div id = "notification-preview" className = "card">
+                <button onClick={addNotification}>Get Notification</button>
                 <h2>Notifications:</h2>
                 {[...userNotification].sort((a,b)=> {
             const dateA = new Date(a.recieved_at).getTime();
@@ -125,7 +119,6 @@ export default function Dashboard() {
                         {notification.notification_title}
                     </div>
                 ))}
-                <button onClick={handleShowAllClick}>See All</button>
                 {!selectedNotification.key && !showAll ? (
                     <></>
                 ) : selectedNotification.key ? (
@@ -135,7 +128,6 @@ export default function Dashboard() {
                                 <p>Recieved at: {new Date(selectedNotification.date).toLocaleString('en-US', options)}</p>
                                 <p>{selectedNotification.value}</p>
                                 <button onClick={handleBackClick}>Back</button>
-                                <button onClick={handleBackToAllClick}>Show All Notifications</button>
                             </div>
                         </div>
                     ) : (

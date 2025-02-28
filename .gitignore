@@ -15,6 +15,9 @@ pnpm-lock.yaml
 oneHealthDB.mwb
 oneHealthDB.mwb.bak
 lag_practice.sql
+date_range.sql
+altering_tables.sql
+user_drug_info.sql
 
 # .DS_Store is for mac users only
 .DS_Store

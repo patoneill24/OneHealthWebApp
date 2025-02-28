@@ -2,7 +2,7 @@ import express from 'express';
 
 import cors from 'cors';
 
-import {getRewards, addReward, getPopularPrizes, getPopularPrizesByUser, getPopularPrizesByLocation} from '../controllers/userRewardsController.js';
+import {getUserRewards, addReward, getPopularPrizes, getPopularPrizesByUser, getPopularPrizesByLocation} from '../controllers/userRewardsController.js';
 
 const userRewardsRouter = express.Router();
 
@@ -16,7 +16,7 @@ userRewardsRouter.get('/popular/:location', getPopularPrizesByLocation);
 
 userRewardsRouter.get('/popular/userid/:user_id', getPopularPrizesByUser);
 
-userRewardsRouter.get('/:user_id', getRewards);
+userRewardsRouter.get('/:user_id', getUserRewards);
 
 
 userRewardsRouter.post('/:user_id', addReward);

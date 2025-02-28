@@ -72,16 +72,12 @@ GET http://localhost:3000/users/rewards/popular
 GET http://localhost:3000/users/charles/boston
 
 ###
-GET http://localhost:3000
-
-###
 
 GET http://localhost:3000/rewards/name/target%20gift%20card
 
 ###
 
 GET http://localhost:3000/users/notifications/3
-
 
 ###
 
@@ -112,4 +108,16 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:3000/users/tookdrugs/2
+GET http://localhost:3000/users/drugs/tookdrugs/2
+
+###
+
+GET http://localhost:3000/users/drugs/tookdrugs/2/table
+
+###
+
+GET http://localhost:3000/users/drugs/tookdrugs/3/report
+
+### 
+
+Get http://localhost:3000/users/drugs/tookdrugs/2/report/1

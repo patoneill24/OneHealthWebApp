@@ -17,7 +17,7 @@ export const selectUser = (id: number) => {
 
 export const createUser = (name: string, location: string, points: number) => {
   pool.query(
-    "INSERT INTO users (name, location, points) VALUES($1, $2, $3)",
+    "INSERT INTO users (name, location, points,created_at,updated_at) VALUES($1, $2, $3,CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)",
     [name, location, points]
   );
 };
@@ -29,7 +29,7 @@ export const changeUser = (
   points: number
 ) => {
     pool.query(
-      "UPDATE users SET name = $1, location = $2, points = $3 WHERE id = $4",
+      "UPDATE users SET name = $1, location = $2, points = $3, updated_at = CURRENT_TIMESTAMP WHERE id = $4",
       [name, location, points, id]
     );
 };
@@ -42,51 +42,4 @@ export const removeUser = (id: number) => {
 export const selectLocations = () => {
   const locations = pool.query("SELECT DISTINCT location FROM users");
   return locations;
-}
-
-export const selectAllNotifications = () => {
-  const notifications = pool.query("SELECT * FROM notifications");
-  return notifications;
-}
-
-export const selectUserNotifications = (id: number) => {
-  const notifications = pool.query("SELECT n.notification_id,\
-  n.notification_title,\
-  n.notification_text,\
-  un.recieved_at,\
-  un.user_notification_id \
-  FROM notifications n \
-  JOIN user_notifications un ON n.notification_id = un.notification_id\
-  JOIN users u ON un.user_id = u.id \
-  WHERE u.id = $1\
-  ORDER BY un.recieved_at DESC", [id]);
-  return notifications;
-}
-
-export const createNotification = (user_id: string, notification_id: string) => {
-  pool.query("INSERT INTO user_notifications (user_id, notification_id) VALUES($1, $2)", [user_id, notification_id]);
-}
-
-export const selectUserDrugs = (id: number) => {
-  const drugs = pool.query("SELECT d.drug_id,d.name \
-FROM \
-	users u \
-JOIN \
-	user_drugs ud ON u.id = ud.user_id \
-JOIN\
-	drugs d ON ud.drug_id = d.drug_id \
-WHERE \
-	u.id = $1", [id]);
-  return drugs;
-}
-
-export const userTookDrug = (user_id: number, drug_id:number) => {
-  pool.query("INSERT INTO user_took_drugs (user_id,drug_id,took_drug) VALUES($1,$2,CURRENT_TIMESTAMP)", [user_id,drug_id])
-}
-
-export const selectUserTookDrugs = (user_id:number) => {
-  const drug_records = pool.query("SELECT user_took_drugs_id,name, took_drug from user_took_drugs\
-  JOIN drugs ON user_took_drugs.drug_id = drugs.drug_id\
-  WHERE user_id = $1",[user_id]);
-  return drug_records;
 }

@@ -4,7 +4,7 @@ import cors from 'cors';
 
 import 'dotenv/config';
 
-import {getAllUsers, getUser, addUser, updateUser, deleteUser, getLocations, getUserByNameAndLocation, getAllNotifications, getUserNotifications, addNotification, getUserDrugs, addDrugRecord,getDrugRecords} from '../controllers/usersController.js';
+import {getAllUsers, getUser, addUser, updateUser, deleteUser, getLocations, getUserByNameAndLocation} from '../controllers/usersController.js';
 
 const userRouter = express.Router();
 
@@ -16,18 +16,9 @@ userRouter.use(express.json());
 userRouter.get('/', getAllUsers);
 userRouter.post('/',addUser);
 userRouter.get('/locations', getLocations);
-userRouter.get('/notifications', getAllNotifications);
-userRouter.post('/notifications', addNotification);
 
-// More Specific Paremeterized Routes
-userRouter.get('/notifications/:id', getUserNotifications);
-userRouter.get('/drugs/:id', getUserDrugs);
-userRouter.get('/tookdrugs/:user_id', getDrugRecords)
-userRouter.post('/tookdrugs/:user_id', addDrugRecord)
+//  Parametrized Routes
 userRouter.get('/:name/:location', getUserByNameAndLocation);
-
-
-// Other Parametrized Routes
 userRouter.get('/:id', getUser);
 userRouter.put('/:id', updateUser);
 userRouter.delete('/:id', deleteUser);

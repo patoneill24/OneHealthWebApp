@@ -7,7 +7,9 @@ export default function Learn() {
 
   if(sharedValue.name === ""){
     return(
+      <>
       <LoggedOut />
+      </>
 )}
   return (
     <div>
