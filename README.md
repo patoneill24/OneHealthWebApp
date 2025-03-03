@@ -2,7 +2,7 @@
 One Heatlh Web Application
 
 # Project set up
-navigate to the client dircetory and run the following command to install the dependencies
+navigate to the client directory and run the following command to install the dependencies
 ```
 npm install
 ```
@@ -60,7 +60,7 @@ If you want to use a different port, you'll have to change which port you're exp
 The sql dump file is located in the root directory of the project. You can use it to populate the database with some data. To do this, you'll need to run the following docker commands in the root directory of the project.
 
 ```bash
-psql -U username -h localhost database_name < oneHealthDump.sql
+psql -U username -h localhost -d database_name < oneHealthDump.sql
 ```
 
 You can test the database connection by running the following command in the root directory of the project.
