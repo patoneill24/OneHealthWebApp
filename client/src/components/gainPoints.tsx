@@ -11,12 +11,13 @@ export default function GainPoints() {
             name: sharedValue.name,
             location: sharedValue.location,
             points: sharedValue.points + 10
-        })
-        .then(() => {
-          getPoints();
-          console.log(sharedValue);
-        })
-        .catch((error) => {
+        }).then((response) => {
+            console.log(response.data);
+        }).then(() => {
+            getPoints();
+        }).then(() => {
+            console.log(sharedValue);
+        }).catch((error) =>{
           console.log(error);
         });
     }

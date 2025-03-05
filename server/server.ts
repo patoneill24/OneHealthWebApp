@@ -4,6 +4,8 @@ import cors from 'cors';
 
 import 'dotenv/config';
 
+import { errorHandler } from './middleware/errors.js';
+
 import userRouter from './routes/users.js';
 
 import rewardsRouter from './routes/rewards.js';
@@ -19,6 +21,8 @@ const app = express();
 app.use(cors());
 
 app.use(express.json());
+
+app.use(errorHandler);
 
 
 app.use('/users/rewards', userRewardsRouter);

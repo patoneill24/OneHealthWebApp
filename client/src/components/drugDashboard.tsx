@@ -84,7 +84,7 @@ export default function DrugDashboard(){
                             {med.last_taken_today === null ? (
                                 <p> Last Time Taken {med.name} Today: N/A</p>
                             ) : (
-                                <p> Last Time Taken {med.name} Today: {new Date(med.last_taken_today).getUTCHours()%12}:{new Date(med.last_taken_today).getUTCMinutes() < 10? `0${new Date(med.last_taken_today).getUTCMinutes()}`: `${new Date(med.last_taken_today).getUTCMinutes()}`}{new Date(med.last_taken_today).getUTCHours() >= 12 ? 'PM': 'AM'}</p>
+                                <p> Last Time Taken {med.name} Today: {new Date(med.last_taken_today).getUTCHours() % 12 === 0 ? 12 :new Date(med.last_taken_today).getUTCHours() % 12}:{new Date(med.last_taken_today).getUTCMinutes() < 10? `0${new Date(med.last_taken_today).getUTCMinutes()}`: `${new Date(med.last_taken_today).getUTCMinutes()}`}{new Date(med.last_taken_today).getUTCHours() >= 12 ? 'PM': 'AM'}</p>
                             )}
                         </div>
                      ))}

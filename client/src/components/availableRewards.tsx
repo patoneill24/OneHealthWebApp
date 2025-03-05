@@ -21,53 +21,47 @@ export default function RewardsAvilable(){
     
     const avaliableRewards = rewards.filter((reward) => reward.status === 'active');
 
-    function SubtractPoints(cost:number){
-
-        axios.put(`http://localhost:3000/users/${sharedValue.id}`, {
+    async function SubtractPoints(cost:number){
+      axios.put(`http://localhost:3000/users/${sharedValue.id}`, {
             name: sharedValue.name,
             location: sharedValue.location,
             points: sharedValue.points - cost
-        })
-        .then(() => {
+        }).then(() => {
           getPoints();
+        }).then(() => {
           console.log('Points Subtracted');
           console.log(sharedValue);
-        })
-        .catch((error) => {
+        }).catch((error) => {
           console.log(error);
-        });
+        }
+        );
     }
     
     
-    function getReward(id: number,points: number){
+    async function getReward(id: number,points: number){
         console.log(points)
         if(points > sharedValue.points){
             alert('Not enough points to redeem this reward');
             return;
         }
-        axios.get(`http://localhost:3000/rewards/${id}`)
-        .then((response) => {
-          console.log(response.data[0]);
-          SubtractPoints(points);
-          redeemReward(id,points);
-        })
-        .catch((error) => {
+        try{
+          await SubtractPoints(points);
+          await redeemReward(id,points);
+        }catch(error){
           console.log(error);
-        });
+        }
     }
     
-       function redeemReward(id: number, cost: number){
-        axios.post(`http://localhost:3000/users/rewards/${sharedValue.id}`, {
+      async function redeemReward(id: number, cost: number){
+        try{
+        await axios.post(`http://localhost:3000/users/rewards/${sharedValue.id}`, {
             user_id: sharedValue.id,
             reward_id: id,
             price_at_pruchase: cost
         })
-        .then(() => {
-          console.log('Reward Redeemed');
-        })
-        .catch((error) => {
+        }catch(error) {
           console.log(error);
-        });
+        }
     }
 
     useEffect(() => {

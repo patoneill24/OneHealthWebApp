@@ -1,5 +1,7 @@
+
 import { useAppContext } from "../contexts/userContexts"
 import toTitleCase from "../utils/titleCase";
+
 export default function UserInfo() {
     const {sharedValue} = useAppContext();
     const {setSharedValue} = useAppContext();
@@ -7,6 +9,7 @@ export default function UserInfo() {
     function SignOut(){
         setSharedValue({id:0, name: "", location: "", points: 0});
     }
+
 
     if(sharedValue.name === ""){
         return(

@@ -18,9 +18,9 @@ userRouter.post('/',addUser);
 userRouter.get('/locations', getLocations);
 
 //  Parametrized Routes
-userRouter.get('/:name/:location', getUserByNameAndLocation);
 userRouter.get('/:id', getUser);
 userRouter.put('/:id', updateUser);
 userRouter.delete('/:id', deleteUser);
+userRouter.get('/:name/:location', getUserByNameAndLocation);
 
 export default userRouter;

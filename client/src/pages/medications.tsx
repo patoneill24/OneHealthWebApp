@@ -86,12 +86,12 @@ export default function Medications() {
                 <TableCell>{row.dosage}</TableCell>
                 <TableCell>
                   {row.last_taken_today
-                    ? `${new Date(row.last_taken_today).getUTCHours() % 12}:${new Date(row.last_taken_today).getUTCMinutes() < 10 ? `0${new Date(row.last_taken_today).getUTCMinutes()}`: `${new Date(row.last_taken_today).getUTCMinutes()}`}${new Date(row.last_taken_today).getUTCHours() >= 12 ? 'PM' : 'AM'}`
+                    ? `${new Date(row.last_taken_today).getUTCHours() % 12 === 0 ? 12 :new Date(row.last_taken_today).getUTCHours() % 12}:${new Date(row.last_taken_today).getUTCMinutes() < 10 ? `0${new Date(row.last_taken_today).getUTCMinutes()}`: `${new Date(row.last_taken_today).getUTCMinutes()}`}${new Date(row.last_taken_today).getUTCHours() >= 12 ? 'PM' : 'AM'}`
                     : 'N/A'}
                 </TableCell>
                 <TableCell>
                   {row.last_taken
-                    ? `${new Date(row.last_taken).toLocaleDateString()} ${new Date(row.last_taken).getUTCHours() % 12}:${new Date(row.last_taken).getUTCMinutes() < 10 ? `0${new Date(row.last_taken).getUTCMinutes()}`: `${new Date(row.last_taken).getUTCMinutes()}`}${new Date(row.last_taken).getUTCHours() >= 12 ? 'PM' : 'AM'}`
+                    ? `${new Date(row.last_taken).toLocaleDateString()} ${new Date(row.last_taken).getUTCHours() % 12 === 0 ? 12 :new Date(row.last_taken).getUTCHours() % 12}:${new Date(row.last_taken).getUTCMinutes() < 10 ? `0${new Date(row.last_taken).getUTCMinutes()}`: `${new Date(row.last_taken).getUTCMinutes()}`}${new Date(row.last_taken).getUTCHours() >= 12 ? 'PM' : 'AM'}`
                     : 'N/A'}
                 </TableCell>
                 <TableCell><FormGroup>
