@@ -34,7 +34,6 @@ interface MedicationRecordProps {
 
   export default function MedicationRecords(){
 
-    const options:any  = { year: 'numeric', month: 'long', day: 'numeric',timeZone: 'UTC' };
     const { sharedValue } = useAppContext();
     const [tableData, setTableData] = useState<any[]>([]);
     const [columns, setColumns] = useState<GridColDef[]>([]);
@@ -47,7 +46,7 @@ interface MedicationRecordProps {
         user_name: row.user_name,
         drug_id: row.drug_id,
         drug_name: row.drug_name,
-        date: new Date(row.sequence_date).toLocaleDateString('en-US', options),
+        date: new Date(row.sequence_date).toLocaleDateString('en-US', {timeZone: "America/Denver" }),
         num_drugs_taken: row.num_drugs_taken,
       }));
     };

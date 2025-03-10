@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import Logo from '../assets/hs-emp-logo-data.png';
+import {UserButton} from "@clerk/clerk-react";
 export default function Navbar(){
 
     function activeLine(e: any){
@@ -41,6 +42,7 @@ export default function Navbar(){
         <Link to='/admin'><span onClick={(e)=> activeLine(e)}>Accounts</span></Link>
         <Link to='/adminrewards'><span onClick={(e)=> activeLine(e)}>Rewards</span></Link>
         <Link to='/register'><span onClick={(e)=> activeLine(e)}>Register</span></Link>
+        <UserButton />
     </div>
     )
 }

@@ -19,9 +19,11 @@ userMedicationsRouter.use(cors());
 userMedicationsRouter.use(express.json());
 
 
-import {getUserDrugs, addDrugRecord, getDrugRecords, getUserDrugRecordTable, getUserDrugReport, getUserDrugReportByDrug} from '../controllers/userMedController.js';
+import {getUserDrugs, addDrugRecord, getDrugRecords, getUserDrugRecordTable, getUserDrugReport, getUserDrugReportByDrug, getDrugSchedule, getMedicationHistory} from '../controllers/userMedController.js';
 
 userMedicationsRouter.get('/:id', getUserDrugs);
+userMedicationsRouter.get('/schedule/:user_id', getDrugSchedule);
+userMedicationsRouter.get('/history/:user_id', getMedicationHistory);
 userMedicationsRouter.get('/tookdrugs/:user_id', getDrugRecords);
 userMedicationsRouter.post('/tookdrugs/:user_id', addDrugRecord);
 userMedicationsRouter.get('/tookdrugs/:user_id/table', getUserDrugRecordTable);

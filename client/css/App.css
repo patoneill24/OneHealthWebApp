@@ -270,9 +270,9 @@
 
 #notification-preview {
   float: left;
-  height: 500px;
+  height: 700px;
   width: 30%;
-  max-height: 500px;
+  max-height: fit-content;
   overflow: auto;
   margin: 0 5%;
   margin-bottom: 10%;

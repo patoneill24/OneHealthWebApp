@@ -1,25 +1,19 @@
 import pool from "../model/db.js";
 
 export const selectUserDrugs = (id: number) => {
-    const drugs = pool.query("SELECT u.id AS user_id,d.drug_id,d.name,ud.dosage, \
-      ud.num_required_daily,COALESCE(daily_record.num_took,0)::integer AS num_took, \
-      daily_record.last_taken_today,record.last_taken \
-    FROM \
-    	users u \
-    JOIN \
-    	user_drugs ud ON u.id = ud.user_id \
-    JOIN \
-    	drugs d ON ud.drug_id = d.drug_id \
-    LEFT JOIN ( \
-    SELECT drug_id, count(*) AS num_took, MAX(took_drug) AS last_taken_today FROM user_took_drugs \
-    WHERE user_id = $1 AND DATE(took_drug) = CURRENT_DATE \
-    GROUP BY drug_id \
-    ) daily_record ON d.drug_id = daily_record.drug_id \
-    LEFT JOIN (SELECT drug_id,MAX(took_drug) AS last_taken FROM user_took_drugs \
-    WHERE user_id = $1 \
-    GROUP BY drug_id) record ON d.drug_id = record.drug_id \
-    WHERE \
-    	u.id = $1;", [id]);
+    const drugs = pool.query("SELECT u.id AS user_id,d.drug_id,d.name, ud.dosage, record.last_taken, \
+      (record.last_taken + interval '1 hour' * ud.interval) AS take_next \
+FROM \
+	users u \
+JOIN \
+	user_drugs ud ON u.id = ud.user_id \
+JOIN \
+	drugs d ON ud.drug_id = d.drug_id \
+LEFT JOIN (SELECT drug_id,MAX(took_drug) AS last_taken FROM user_took_drugs \
+WHERE user_id = $1 \
+GROUP BY drug_id) record ON d.drug_id = record.drug_id \
+WHERE \
+	u.id = $1;", [id]);
     return drugs;
   }
   
@@ -125,3 +119,17 @@ export const selectUserDrugs = (id: number) => {
    return drug_report;
   }
   
+  export const selectMedicationHistory = (user_id:number) => {
+    const history = pool.query("SELECT ROW_NUMBER() OVER (ORDER BY took_drug DESC) AS ID, d.name, took_drug \
+    FROM user_took_drugs ud \
+    JOIN drugs d ON d.drug_id = ud.drug_id \
+    WHERE user_id = $1 \
+    ORDER BY took_drug DESC;", [user_id]);
+    return history;
+  }
+
+
+  export const selectDrugSchedule = (user_id: number) =>{
+      const drug_schedule = pool.query("SELECT * FROM events WHERE user_id = $1", [user_id]);
+      return drug_schedule;
+  }

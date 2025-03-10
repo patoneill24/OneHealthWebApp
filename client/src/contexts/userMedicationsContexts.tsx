@@ -5,10 +5,8 @@ interface Medication {
   drug_id: number;
   name: string;
   dosage: string;
-  num_required_daily: number;
-  num_took: number;
-  last_taken_today: string | null;
   last_taken: string | null;
+  take_next: string;
 }
 interface UserMedicationsContextProps {
     userMedications: Medication[];

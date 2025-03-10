@@ -3,7 +3,6 @@ import { useUserMedicationsContext } from "../contexts/userMedicationsContexts"
 import { useEffect, useState} from "react";
 import axios from "axios";
 import { useAppContext } from "../contexts/userContexts";
-import { DonutChart } from "../assets/donutChart";
 
 
 interface DrugReport {
@@ -19,6 +18,7 @@ export default function DrugDashboard(){
     const { sharedValue } = useAppContext();
     const [report, setReport] = useState<DrugReport[]>([]);
     const [filter, setFilter] = useState<number>(0);
+    const dateOptions:any = {year:"numeric", month: "numeric",day: "numeric", hour: "2-digit", minute: "2-digit"};
 
 
     function getDrugReport(){
@@ -68,27 +68,13 @@ export default function DrugDashboard(){
                 ))}
             </select>
             <div className="medication">
+                {userMedications.filter(filterMedications).map((med) => (
+                    <div key={med.drug_id} className="medication">
+                        <h3>{med.name}</h3>
+                        <p> Next Dosage: {new Date(med.take_next).toLocaleString('en-US',dateOptions)}</p>
+                    </div>
+                ))}
             </div>
-                <div id="donut_chart">
-                    {report.length === 0 ? (
-                        <p>No medications on record</p>
-                    ) : (
-                        <>
-                        <h3>Meds Taken / Meds Required</h3>
-                        <p>{report[0].quantity}/{report[1].quantity + report[0].quantity}</p>
-                        </>
-                    )}
-                     <DonutChart data = {report} width={150} height={150}/>
-                     {userMedications.filter(filterMedications).map((med) => (
-                        <div key={med.drug_id} className="medication">
-                            {med.last_taken_today === null ? (
-                                <p> Last Time Taken {med.name} Today: N/A</p>
-                            ) : (
-                                <p> Last Time Taken {med.name} Today: {new Date(med.last_taken_today).getUTCHours() % 12 === 0 ? 12 :new Date(med.last_taken_today).getUTCHours() % 12}:{new Date(med.last_taken_today).getUTCMinutes() < 10? `0${new Date(med.last_taken_today).getUTCMinutes()}`: `${new Date(med.last_taken_today).getUTCMinutes()}`}{new Date(med.last_taken_today).getUTCHours() >= 12 ? 'PM': 'AM'}</p>
-                            )}
-                        </div>
-                     ))}
-                </div>
         </div>
     )
 }

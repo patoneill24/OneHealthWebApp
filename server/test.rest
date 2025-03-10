@@ -110,6 +110,11 @@ Content-Type: application/json
 
 GET http://localhost:3000/users/drugs/tookdrugs/2
 
+
+###
+
+GET http://localhost:3000/users/drugs/history/3
+
 ###
 
 GET http://localhost:3000/users/drugs/tookdrugs/2/table
@@ -120,4 +125,12 @@ GET http://localhost:3000/users/drugs/tookdrugs/3/report
 
 ### 
 
-Get http://localhost:3000/users/drugs/tookdrugs/2/report/1
+Get http://localhost:3000/users/drugs/tookdrugs/2/report/2
+
+###
+
+GET http://localhost:3000/users/drugs/schedule/4
+
+
+### 
+GET http://localhost:3000/userlist

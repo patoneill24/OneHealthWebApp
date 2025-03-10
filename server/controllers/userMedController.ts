@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 
-import { selectUserDrugs, selectUserDrugRecordTable, selectUserDrugReportByDrug, selectUserDrugReport,selectUserTookDrugs, userTookDrug } from "../services/userMedQueries.js";
+import { selectUserDrugs, selectUserDrugRecordTable, selectUserDrugReportByDrug, selectUserDrugReport,selectUserTookDrugs, userTookDrug, selectDrugSchedule, selectMedicationHistory } from "../services/userMedQueries.js";
 
 export const getUserDrugs = async(req:Request, res:Response) => {
     const { id } = req.params;
@@ -104,6 +104,40 @@ export const getUserDrugReportByDrug = async(req:Request, res:Response) => {
         }
         res.status(500).send({
             err: "An error occurred while fetching the record for this drug"
+        });
+    }
+}
+
+export const getDrugSchedule = async(req:Request, res:Response) => {
+    const {user_id} = req.params;
+    try{
+        const drug_schedule = (await selectDrugSchedule(parseInt(user_id)))?.rows;
+        res.status(200).send(drug_schedule);
+    }catch(err:unknown) {
+        if(err instanceof Error) {
+            console.error(err.message);
+        }else {
+            console.error("An unknown error occurred");
+        }
+        res.status(500).send({
+            err: "An error occurred while fetching the drug schedule"
+        });
+    }
+}
+
+export const getMedicationHistory = async(req:Request, res:Response) => {
+    const {user_id} = req.params;
+    try{
+        const history = (await selectMedicationHistory(parseInt(user_id)))?.rows;
+        res.status(200).send(history);
+    }catch(err:unknown) {
+        if(err instanceof Error) {
+            console.error(err.message);
+        }else {
+            console.error("An unknown error occurred");
+        }
+        res.status(500).send({
+            err: "An error occurred while fetching the medication history"
         });
     }
 }

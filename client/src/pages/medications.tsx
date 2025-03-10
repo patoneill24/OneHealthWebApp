@@ -1,9 +1,10 @@
-import { useEffect} from "react";
+import { useEffect, useState} from "react";
 import { useAppContext } from "../contexts/userContexts";
 import UserInfo from "../components/userInfo";
 import LoggedOut from "../components/loggedOut";
 import axios from "axios";
 import MedicationRecords from "../components/medicationRecords";
+import MedicationHistory from "../components/medicationHistory";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -11,32 +12,53 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import Checkbox from '@mui/material/Checkbox';
-import { FormControlLabel, FormGroup } from "@mui/material";
 import { useMedications } from "../hooks/useMedications";
 import { useUserMedicationsContext } from "../contexts/userMedicationsContexts";
 
+interface schedule {
+  event_id: number;
+  user_id: number;
+  drug_id: number;
+  scheduled_time: string;
+  status: string;
+}
+
+// let localTime = new Date(nowUTC.getTime() - nowUTC.getTimezoneOffset() * 60000);
 
 export default function Medications() {
   const { sharedValue } = useAppContext();
   const { getMedications } = useMedications();
+  const [schedules, setSchedules] = useState<schedule[]>([]);
+  const dateOptions:any = { year:"numeric", month: "numeric",day: "numeric", hour: "2-digit", minute: "2-digit"};
 
   const {userMedications} = useUserMedicationsContext();
 
-  let counter = 0;
-  const handleChange = (index:string) => {
-    console.log(index);
-    const checkBox = document.getElementById(index) as HTMLInputElement;
-    checkBox.disabled = true;
-  };
   
-  function tookDrug(drug_number: number,index:string){
+  function tookDrug(drug_number: number, drug_name: string,take_next: string){
+    const now = new Date();
+    const take_drug = new Date(take_next).getTime() - new Date(take_next).getTimezoneOffset() * 60000;
+    if(take_drug  > now.getTime()){
+      alert(`You cannot take ${drug_name} until ${new Date(take_next).toLocaleString('en-US',dateOptions)}` );
+      return;
+    }
     axios.post(`http://localhost:3000/users/drugs/tookdrugs/${sharedValue.id}`,{
         drug_id: drug_number
     })
     .then((response)=>{
       console.log(response);
-      handleChange(index);
+      alert(`You have taken ${drug_name}`);
+    }).then(()=>{
+      getMedications();
+    })
+    .catch((error)=>{
+      console.log(error)
+    })
+  }
+
+  function getSchedule(){
+    axios.get(`http://localhost:3000/users/drugs/schedule/${sharedValue.id}`)
+    .then((response)=>{
+      setSchedules(response.data);
     })
     .catch((error)=>{
       console.log(error)
@@ -47,6 +69,7 @@ export default function Medications() {
 
   useEffect(() => {
     getMedications();
+    getSchedule();
   }, []);
  
   if(sharedValue.name === ""){
@@ -67,14 +90,13 @@ export default function Medications() {
               <TableCell>ID</TableCell>
               <TableCell>Medication Name</TableCell>
               <TableCell>Dosage</TableCell>
-              <TableCell>Last Taken Today</TableCell>
               <TableCell>Last Taken</TableCell>
+              <TableCell>Take Medication At</TableCell>
               <TableCell>Recording</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {userMedications.map((row) => (
-              counter = 1,
               <TableRow
                 key={row.drug_id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -85,29 +107,18 @@ export default function Medications() {
                 </TableCell>
                 <TableCell>{row.dosage}</TableCell>
                 <TableCell>
-                  {row.last_taken_today
-                    ? `${new Date(row.last_taken_today).getUTCHours() % 12 === 0 ? 12 :new Date(row.last_taken_today).getUTCHours() % 12}:${new Date(row.last_taken_today).getUTCMinutes() < 10 ? `0${new Date(row.last_taken_today).getUTCMinutes()}`: `${new Date(row.last_taken_today).getUTCMinutes()}`}${new Date(row.last_taken_today).getUTCHours() >= 12 ? 'PM' : 'AM'}`
+                  {row.last_taken
+                    ? `${new Date(row.last_taken).toLocaleString('en-US',dateOptions)}`
                     : 'N/A'}
                 </TableCell>
                 <TableCell>
-                  {row.last_taken
-                    ? `${new Date(row.last_taken).toLocaleDateString()} ${new Date(row.last_taken).getUTCHours() % 12 === 0 ? 12 :new Date(row.last_taken).getUTCHours() % 12}:${new Date(row.last_taken).getUTCMinutes() < 10 ? `0${new Date(row.last_taken).getUTCMinutes()}`: `${new Date(row.last_taken).getUTCMinutes()}`}${new Date(row.last_taken).getUTCHours() >= 12 ? 'PM' : 'AM'}`
+                {row.take_next
+                    ? `${new Date(row.take_next).toLocaleString('en-US',dateOptions)}`
                     : 'N/A'}
                 </TableCell>
-                <TableCell><FormGroup>
-                {Array.from({length: row.num_took}).map(()=> {
-                  const index = counter++;
-                  return(
-                    <FormControlLabel control={ <Checkbox id={row.name+index as unknown as string} key={index} checked={true} disabled = {true} />} label = {'Dose '+ (index) } labelPlacement="end"/>
-                  )
-                })}
-                {Array.from({length: row.num_required_daily - row.num_took}).map(()=> {
-                  const index = counter++;
-                  return(
-                  <FormControlLabel control={ <Checkbox id={row.name+index as unknown as string} key={index} onChange={() => tookDrug(row.drug_id,row.name + index)} />} label = {'Dose '+ (index)} labelPlacement="end" />
-                  )
-                })}
-                </FormGroup></TableCell>
+                <TableCell>
+                  <button onClick={()=>tookDrug(row.drug_id,row.name, row.take_next)}>Take Medication</button>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -120,12 +131,20 @@ export default function Medications() {
   return (
     <div >
       <h1>Medications</h1>
+      {/* <h2>Schedule</h2>
+      {schedules.map((schedule) => (
+        <div key={schedule.event_id}>
+          <h2>{schedule.drug_id}</h2>
+          <h3>{schedule.scheduled_time}</h3>
+          <p>{schedule.status}</p>
+        </div>
+      ))} */}
       <UserInfo />
       <div className="medication_info_table">
         <MedicationTable />
       </div>
       <div className="medication_records">
-        <MedicationRecords />
+        <MedicationHistory />
       </div>
     </div>
   );

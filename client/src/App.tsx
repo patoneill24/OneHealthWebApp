@@ -16,12 +16,17 @@ import Medication from './pages/medications';
 import Admin from './pages/admin';
 import AdminRewards from './pages/admin-rewards';
 import Footer from './components/footer';
+import { SignedIn, SignedOut, SignInButton} from "@clerk/clerk-react";
 
 
 function App() {
   return (
     <>
     <AppProvider>
+      <SignedOut>
+        <SignInButton />
+      </SignedOut>
+      <SignedIn>
       <RewardProvider>
         <RewardsHistoryProvider>
         <PrizePopularityProvider>
@@ -44,6 +49,7 @@ function App() {
         </PrizePopularityProvider>
         </RewardsHistoryProvider>
       </RewardProvider>
+      </SignedIn>
     </AppProvider>
     </>
   )
